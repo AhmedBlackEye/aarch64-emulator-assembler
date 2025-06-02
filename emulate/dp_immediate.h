@@ -4,9 +4,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-void handle_dp_imm(uint32_t instr);
+
 /**
- * Executes an immediate data processing instruction
- * based on the instruction encoding.
+ * @brief Decodes the instruction and dispatches to either arithmetic or wide move
+ * execution functions.
  */
+void handle_dp_imm(uint32_t instr);
+
 #endif

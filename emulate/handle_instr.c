@@ -5,7 +5,7 @@
 #include "handle_instr.h"
 #include "debug.h"
 #include "dp_reg.h"
-#include "load_store_instructions.h"
+#include "load_store.h"
 #include "branch.h"
 #include "dp_immediate.h"
 
@@ -47,7 +47,7 @@ void handle_instr(uint32_t instr)
     case OP0_LOAD_2:
     case OP0_LOAD_3:
     case OP0_LOAD_4:
-        choose_sdt_or_ll(instr);
+        handle_load_store(instr);
         break;
 
     case OP0_BRANCH_1:

@@ -2,7 +2,10 @@
 #include "global.h"
 #include "debug.h"
 
-static void handle_load_literal(uint32_t instruction)
+static void execute_load_literal(uint32_t instruction);
+static void execute_single_data_transfer(uint32_t instruction);
+
+static void execute_load_literal(uint32_t instruction)
 {
     bool sf = extract_bits(instruction, 30, 30);
     uint8_t rt = extract_bits(instruction, 0, 4);
@@ -14,7 +17,7 @@ static void handle_load_literal(uint32_t instruction)
     write_reg(rt, read_mem(address, sf), sf);
 }
 
-static void handle_single_data_transfer(uint32_t instruction)
+static void execute_single_data_transfer(uint32_t instruction)
 {
     bool sf = extract_bits(instruction, 30, 30);
     bool u = extract_bits(instruction, 24, 24);
@@ -67,15 +70,15 @@ static void handle_single_data_transfer(uint32_t instruction)
     }
 }
 
-void choose_sdt_or_ll(uint32_t instruction)
+void handle_load_store(uint32_t instruction)
 {
     bool sdt_or_ll = extract_bits(instruction, 31, 31);
-    if (sdt_or_ll)
+    if (sdt_or_ll) 
     {
-        handle_single_data_transfer(instruction);
+        execute_single_data_transfer(instruction);
     }
-    else
+    else 
     {
-        handle_load_literal(instruction);
+        execute_load_literal(instruction);
     }
 }

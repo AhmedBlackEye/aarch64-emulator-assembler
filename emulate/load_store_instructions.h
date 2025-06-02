@@ -10,6 +10,6 @@
  *
  * @param instruction The 32-bit ARM instruction to decode and handle.
  */
-void choose_sdt_or_ll(uint32_t instruction);
+void handle_load_store(uint32_t instruction);
 
 #endif

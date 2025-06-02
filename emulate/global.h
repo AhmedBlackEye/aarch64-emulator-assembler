@@ -16,8 +16,6 @@ extern uint64_t sign_extend(uint32_t value, int bits);
 extern uint64_t read_reg(uint8_t reg_num, bool is64);
 extern void write_reg(uint8_t reg_num, uint64_t value, bool is64);
 
-extern void step_pc();
-
 // Program Counter
 extern uint64_t pc;
 extern uint8_t memory[MAX_MEMORY_SIZE];

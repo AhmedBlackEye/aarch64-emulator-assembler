@@ -14,6 +14,9 @@
 #define ASR_MASK 0b10
 #define ROR_MASK 0b11
 
+static uint64_t shift_reg(uint64_t val, uint8_t amount, uint8_t shift_type, bool is64);
+static uint64_t execute_multiply(uint64_t Rn, uint64_t Rm, uint64_t Ra, bool negate, bool is64);
+
 static uint64_t shift_reg(uint64_t val, uint8_t amount, uint8_t shift_type, bool is64)
 {
     const uint64_t n = is64 ? 64 : 32;
@@ -43,14 +46,14 @@ static uint64_t shift_reg(uint64_t val, uint8_t amount, uint8_t shift_type, bool
     }
 }
 
-static uint64_t compute_multiply(uint64_t Rn, uint64_t Rm, uint64_t Ra, bool negate, bool is64)
+static uint64_t execute_multiply(uint64_t Rn, uint64_t Rm, uint64_t Ra, bool negate, bool is64)
 {
     uint64_t product = Rn * Rm;
     uint64_t result = negate ? (Ra - product) : (Ra + product);
     return is64 ? result : (uint32_t)result;
 }
 
-static uint64_t compute_logical(uint64_t Rn, uint64_t Op2, uint8_t opc, bool is64)
+static uint64_t execute_logical(uint64_t Rn, uint64_t Op2, uint8_t opc, bool is64)
 {
     switch (opc)
     {
@@ -108,7 +111,7 @@ void handle_dp_reg(uint32_t instr)
     if (is_multiply)
     {
         bool negate_product = extract_bits(instr, 15, 15);
-        result = compute_multiply(Rn, Rm, Ra, negate_product, is64);
+        result = execute_multiply(Rn, Rm, Ra, negate_product, is64);
         write_reg(rd, result, is64);
         return;
     }
@@ -122,7 +125,7 @@ void handle_dp_reg(uint32_t instr)
     if (is_arith)
         result = compute_arithmetic(Rn, Op2, opc, is64);
     else
-        result = compute_logical(Rn, Op2, opc, is64);
+        result = execute_logical(Rn, Op2, opc, is64);
 
     if (!is64)
         result = (uint32_t)result;

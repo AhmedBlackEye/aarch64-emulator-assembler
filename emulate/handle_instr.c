@@ -35,7 +35,7 @@ void handle_instr(uint32_t instr)
     {
     case OP0_DP_IMM_1:
     case OP0_DP_IMM_2:
-        decode_immediate(instr);
+        handle_dp_imm(instr);
         break;
 
     case OP0_DP_REG_1:

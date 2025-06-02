@@ -4,7 +4,12 @@
 #include "global.h"
 #include "debug.h"
 
-static uint64_t xregs[NUM_REG];
+static uint32_t read_mem32(uint32_t addr);
+static uint64_t read_mem64(uint32_t addr);
+static void write_mem32(uint32_t addr, uint32_t value);
+static void write_mem64(uint32_t addr, uint64_t value);
+
+static uint64_t xregs[NUM_REG] = {0};
 
 inline uint32_t extract_bits(uint32_t instruction, int start, int end)
 {
@@ -44,11 +49,6 @@ uint64_t read_reg(uint8_t reg_num, bool is64)
 }
 
 uint64_t pc = 0;
-
-void step_pc()
-{
-    pc += INSTR_SIZE;
-}
 
 PState pstate = {.N = false, .Z = true, .C = false, .V = false};
 

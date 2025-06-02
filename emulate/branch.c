@@ -19,9 +19,9 @@
 #define COND_AL 0b1110
 
 // Declarations for static functions
-static int execute_unconditional_branch(uint32_t instruction);
-static int execute_register_branch(uint32_t instruction);
-static int execute_conditional_branch(uint32_t instruction);
+static int handle_unconditional_branch(uint32_t instruction);
+static int handle_register_branch(uint32_t instruction);
+static int handle_conditional_branch(uint32_t instruction);
 static bool check_condition(uint32_t cond);
 
 int execute_branch_instruction(uint32_t instruction)
@@ -31,17 +31,17 @@ int execute_branch_instruction(uint32_t instruction)
     switch (op0)
     {
     case UNCONDITIONAL:
-        return execute_unconditional_branch(instruction);
+        return handle_unconditional_branch(instruction);
     case REGISTER:
-        return execute_register_branch(instruction);
+        return handle_register_branch(instruction);
     case CONDITIONAL:
-        return execute_conditional_branch(instruction);
+        return handle_conditional_branch(instruction);
     default:
         PANIC("Unknown branch instruction format with op0=0x%02X", op0);
     }
 }
 
-static int execute_unconditional_branch(uint32_t instruction)
+static int handle_unconditional_branch(uint32_t instruction)
 {
     uint32_t simm26 = extract_bits(instruction, 0, 25);
     int64_t offset = sign_extend(simm26, 26) * 4;
@@ -51,7 +51,7 @@ static int execute_unconditional_branch(uint32_t instruction)
     return 0;
 }
 
-static int execute_register_branch(uint32_t instruction)
+static int handle_register_branch(uint32_t instruction)
 {
     uint32_t xn = extract_bits(instruction, 5, 9);
 
@@ -62,7 +62,7 @@ static int execute_register_branch(uint32_t instruction)
     return 0;
 }
 
-static int execute_conditional_branch(uint32_t instruction)
+static int handle_conditional_branch(uint32_t instruction)
 {
     uint32_t cond = extract_bits(instruction, 0, 3);
     uint32_t simm19 = extract_bits(instruction, 5, 23);

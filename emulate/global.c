@@ -4,7 +4,12 @@
 #include "global.h"
 #include "debug.h"
 
-static uint64_t xregs[NUM_REG];
+static uint32_t read_mem32(uint32_t addr);
+static uint64_t read_mem64(uint32_t addr);
+static void write_mem32(uint32_t addr, uint32_t value);
+static void write_mem64(uint32_t addr, uint64_t value);
+
+static uint64_t xregs[NUM_REG] = {};
 
 inline uint32_t extract_bits(uint32_t instruction, int start, int end)
 {

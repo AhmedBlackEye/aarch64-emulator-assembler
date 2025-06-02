@@ -6,7 +6,7 @@
 
 static uint64_t xregs[NUM_REG];
 
-uint32_t inline extract_bits(uint32_t instruction, int start, int end)
+inline uint32_t extract_bits(uint32_t instruction, int start, int end)
 {
     int width = end - start + 1;
     uint32_t mask = (1U << width) - 1;

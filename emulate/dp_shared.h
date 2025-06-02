@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "global.h"
 
 #define OPC_ADD 0b00
 #define OPC_ADDS 0b01

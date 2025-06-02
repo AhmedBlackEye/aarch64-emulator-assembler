@@ -4,6 +4,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-void decode_immediate(uint32_t instr);
+void handle_dp_imm(uint32_t instr);
 
 #endif

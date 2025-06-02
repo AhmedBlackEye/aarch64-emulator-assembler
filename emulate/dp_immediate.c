@@ -15,8 +15,8 @@
 #define OPI_ARITH 0b010
 #define OPI_WMOVE 0b101
 
-static void decode_arithmetic(uint32_t instr);
-static void decode_wmove(uint32_t instr);
+static void execute_arithmetic(uint32_t instr);
+static void execute_wmove(uint32_t instr);
 
 void handle_dp_imm(uint32_t instr)
 {
@@ -25,10 +25,10 @@ void handle_dp_imm(uint32_t instr)
     switch (opi)
     {
     case OPI_ARITH:
-        decode_arithmetic(instr);
+        execute_arithmetic(instr);
         break;
     case OPI_WMOVE:
-        decode_wmove(instr);
+        execute_wmove(instr);
         break;
     }
 }

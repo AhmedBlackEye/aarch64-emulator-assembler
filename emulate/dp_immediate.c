@@ -15,7 +15,25 @@
 #define OPI_ARITH 0b010
 #define OPI_WMOVE 0b101
 
-static void decode_arithmetic(uint32_t instr)
+static void decode_arithmetic(uint32_t instr);
+static void decode_wmove(uint32_t instr);
+
+void handle_dp_imm(uint32_t instr)
+{
+    uint8_t opi = extract_bits(instr, 23, 25);
+
+    switch (opi)
+    {
+    case OPI_ARITH:
+        decode_arithmetic(instr);
+        break;
+    case OPI_WMOVE:
+        decode_wmove(instr);
+        break;
+    }
+}
+
+static void execute_arithmetic(uint32_t instr)
 {
     uint8_t is64 = extract_bits(instr, 31, 31);
     uint8_t sh = extract_bits(instr, 22, 22);
@@ -31,7 +49,7 @@ static void decode_arithmetic(uint32_t instr)
     write_reg(rd, result, is64);
 }
 
-static void decode_wmove(uint32_t instr)
+static void execute_wmove(uint32_t instr)
 {
     uint8_t sf = extract_bits(instr, 31, 31);
     uint8_t opc = extract_bits(instr, 29, 30);
@@ -56,19 +74,4 @@ static void decode_wmove(uint32_t instr)
         break;
     }
     write_reg(rd, result_or_op, sf);
-}
-
-void decode_immediate(uint32_t instr)
-{
-    uint8_t opi = extract_bits(instr, 23, 25);
-
-    switch (opi)
-    {
-    case OPI_ARITH:
-        decode_arithmetic(instr);
-        break;
-    case OPI_WMOVE:
-        decode_wmove(instr);
-        break;
-    }
 }

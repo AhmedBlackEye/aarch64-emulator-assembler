@@ -2,8 +2,6 @@
 #define DP_IMMEDIATE_H
 
 #include <stdint.h>
-#include <stdbool.h>
-
 
 /**
  * @brief Decodes the instruction and dispatches to either arithmetic or wide move

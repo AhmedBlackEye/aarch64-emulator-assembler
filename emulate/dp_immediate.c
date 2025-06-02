@@ -1,6 +1,4 @@
 #include <stdint.h>
-#include <stdbool.h>
-#include <stdio.h>
 
 #include "global.h"
 #include "dp_immediate.h"

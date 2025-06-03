@@ -13,6 +13,6 @@ uint32_t encode_neg   (char **tokens, int size);
 uint32_t encode_movn  (char **tokens, int size);
 uint32_t encode_movz  (char **tokens, int size);
 uint32_t encode_movk  (char **tokens, int size);
-uint32_t encode_arith_imm(const char **tokens, int size, uint8_t opc);
+uint32_t encode_arith_imm(char **tokens, int size, uint8_t opc);
 
 #endif

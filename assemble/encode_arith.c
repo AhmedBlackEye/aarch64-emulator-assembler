@@ -1,5 +1,5 @@
 #include "encode_dp_imm.h"
-#include "encode_dp_imm.c"
+#include "encode_dp_reg.h"
 
 uint32_t encode_add(char **tokens, int size) {
     if (tokens[2][0] == '#') {

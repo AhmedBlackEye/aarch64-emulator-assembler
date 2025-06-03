@@ -46,13 +46,13 @@ static uint32_t get_condition_code(const char *mnemonic) {
 
     const char *condition = dot + 1;
 
-    if IS_EQUAL(condition, "eq") return 0x0;
-    if IS_EQUAL(condition, "ne") return 0x1;
-    if IS_EQUAL(condition, "ge") return 0xA;
-    if IS_EQUAL(condition, "lt") return 0xB;
-    if IS_EQUAL(condition, "gt") return 0xC;
-    if IS_EQUAL(condition, "le") return 0xD;
-    if IS_EQUAL(condition, "al") return 0xE; 
+    if STR_EQUAL(condition, "eq") return 0x0;
+    if STR_EQUAL(condition, "ne") return 0x1;
+    if STR_EQUAL(condition, "ge") return 0xA;
+    if STR_EQUAL(condition, "lt") return 0xB;
+    if STR_EQUAL(condition, "gt") return 0xC;
+    if STR_EQUAL(condition, "le") return 0xD;
+    if STR_EQUAL(condition, "al") return 0xE; 
 }
 
 static bool check_valid_condition_code(const char *cond) {
@@ -60,7 +60,7 @@ static bool check_valid_condition_code(const char *cond) {
         "eq", "ne", "ge", "lt", "gt", "le", "al"
     };
     for (int i = 0; valid_codes[i] != NULL; i++) {
-        if (IS_EQUAL(cond, valid_codes[i])) {
+        if (STR_EQUAL(cond, valid_codes[i])) {
             return true;
         }
     }

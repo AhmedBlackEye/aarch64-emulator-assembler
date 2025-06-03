@@ -4,10 +4,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define OPC_ADD 0b00
-#define OPC_ADDS 0b01
-#define OPC_SUB 0b10
-#define OPC_SUBS 0b11
+#define OPC_ADD 0x0
+#define OPC_ADDS 0x1
+#define OPC_SUB 0x2
+#define OPC_SUBS 0x3
 
 /**
  * @brief Updates processor status flags (NZCV) after an arithmetic operation.

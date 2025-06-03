@@ -14,9 +14,9 @@
 #define ASR_MASK 0x2
 #define ROR_MASK 0x3
 
-#define OPC_AND_BIC   0x0
-#define OPC_ORR_ORN   0x1
-#define OPC_EOR_EON   0x2
+#define OPC_AND_BIC 0x0
+#define OPC_ORR_ORN 0x1
+#define OPC_EOR_EON 0x2
 #define OPC_ANDS_BICS 0x3
 
 #define OP_FIELD_MULTIPLY 0x8
@@ -71,6 +71,7 @@ static uint64_t execute_logical(uint64_t Rn, uint64_t Op2, uint8_t opc, bool is6
     case OPC_EOR_EON:
         return Rn ^ Op2;
     case OPC_ANDS_BICS:
+    {
         uint64_t res = Rn & Op2;
 
         // update flags
@@ -79,6 +80,7 @@ static uint64_t execute_logical(uint64_t Rn, uint64_t Op2, uint8_t opc, bool is6
         pstate.C = 0;
         pstate.V = 0;
         return res;
+    }
     default:
         DEV_ASSERT(false, "Invalid logical opc: %d", opc);
         return 0;

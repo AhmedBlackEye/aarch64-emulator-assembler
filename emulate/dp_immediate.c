@@ -5,13 +5,13 @@
 #include "dp_shared.h"
 
 // Wide Move Opcodes
-#define OPC_MOVN 0b00
-#define OPC_MOVZ 0b10
-#define OPC_MOVK 0b11
+#define OPC_MOVN 0x0
+#define OPC_MOVZ 0x2
+#define OPC_MOVK 0x3
 
 // Type of Operation
-#define OPI_ARITH 0b010
-#define OPI_WMOVE 0b101
+#define OPI_ARITH 0x2
+#define OPI_WMOVE 0x5
 
 static void execute_arithmetic(uint32_t instr);
 static void execute_wmove(uint32_t instr);

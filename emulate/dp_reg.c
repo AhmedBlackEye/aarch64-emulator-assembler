@@ -9,10 +9,17 @@
 #define MASK_32_BITS 0xFFFFFFFFULL
 #define MASK_64_BITS ~0ULL
 
-#define LSL_MASK 0b00
-#define LSR_MASK 0b01
-#define ASR_MASK 0b10
-#define ROR_MASK 0b11
+#define LSL_MASK 0x0
+#define LSR_MASK 0x1
+#define ASR_MASK 0x2
+#define ROR_MASK 0x3
+
+#define OPC_AND_BIC   0x0
+#define OPC_ORR_ORN   0x1
+#define OPC_EOR_EON   0x2
+#define OPC_ANDS_BICS 0x3
+
+#define OP_FIELD_MULTIPLY 0x8
 
 static uint64_t shift_reg(uint64_t val, uint8_t amount, uint8_t shift_type, bool is64);
 static uint64_t execute_multiply(uint64_t Rn, uint64_t Rm, uint64_t Ra, bool negate, bool is64);
@@ -57,13 +64,13 @@ static uint64_t execute_logical(uint64_t Rn, uint64_t Op2, uint8_t opc, bool is6
 {
     switch (opc)
     {
-    case 0b00: // AND, BIC
+    case OPC_AND_BIC:
         return Rn & Op2;
-    case 0b01: // ORR, ORN
+    case OPC_ORR_ORN:
         return Rn | Op2;
-    case 0b10: // EOR, EON
+    case OPC_EOR_EON:
         return Rn ^ Op2;
-    case 0b11: // ANDS, BICS
+    case OPC_ANDS_BICS:
         uint64_t res = Rn & Op2;
 
         // update flags
@@ -100,7 +107,7 @@ void handle_dp_reg(uint32_t instr)
 
     bool is_arith = !M && !N_neg_op2_flag && extract_bits(instr, 24, 24);
     bool is_logic = !M && !extract_bits(instr, 24, 24);
-    bool is_multiply = M && op_field == 0b1000;
+    bool is_multiply = M && op_field == OP_FIELD_MULTIPLY;
 
     PANIC_IF(!is_arith && !is_logic && !is_multiply,
              "Invalid instruction: M=%u, op_field=0x%X, instr=0x%08X\n",

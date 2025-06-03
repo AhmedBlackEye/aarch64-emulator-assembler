@@ -122,14 +122,16 @@ static uint32_t encode_multiply(char **tokens,
     uint8_t  x
 ) {
 
+    uint8_t ra = (size == 4) ? atoi(tokens[3] + 1) << 10 : 31;
+
     uint8_t sf = (tokens[0][0] == 'x') ? 1 : 0;
 
     uint32_t instr = 0;
     instr |= sf << 31;
-    instr |= 0x368 << 21;
+    instr |= 0xD8 << 21;
     instr |= atoi(tokens[2] + 1) << 16;
     instr |= x << 15;
-    instr |= atoi(tokens[3] + 1) << 10;
+    instr |= ra;
     instr |= atoi(tokens[1] + 1) << 5;
     instr |= atoi(tokens[0] + 1);
     return instr;

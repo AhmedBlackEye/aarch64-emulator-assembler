@@ -28,7 +28,7 @@ uint32_t encode_arith_imm(char **tokens,
     uint8_t  opc
 ) {
     uint8_t sh = 0;
-    if (size == 5 && ISEQUAL(tokens[4], "#12")) {
+    if (size == 5 && STR_EQUAL(tokens[4], "#12")) {
         sh = 1;
     }
 

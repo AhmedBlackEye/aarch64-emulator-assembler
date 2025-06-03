@@ -1,6 +1,7 @@
 #ifndef GLOBAL_H 
 #define GLOBAL_H 
 
+#include "string.h"
 
 /**
  * Determines if two strings are equal to one another

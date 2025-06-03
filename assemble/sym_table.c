@@ -3,6 +3,7 @@
 
 #include "debug.h"
 #include "sym_table.h"
+#include "global.h"
 
 
 #define SYMBOL_TABLE_SIZE 1000
@@ -18,7 +19,7 @@ void symtab_define(char *label, uint64_t mem_addr) {
 }
 
 uint64_t symtab_lookup(char *label) {
-  for(int i = 0; i < size; i++) {
+  for(size_t i = 0; i < size; i++) {
     if(STR_EQUAL(sym_table[i].label, label)) return sym_table[i].mem_addr;
   }
   PANIC("Label=\"%s\" is not found.", label);

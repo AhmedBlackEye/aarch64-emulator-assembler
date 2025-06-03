@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "sym_table.h"
 #include "parse_instruction.h"
+#include "global.h"
 
 #define MAX_NUM_LINES 10000
 #define MAX_LINE_SIZE 256
@@ -114,10 +115,10 @@ int main(int argc, char **argv)
         }
 
         if (get_label(trimmed, label_buf)) {
-            // Label definition on its own line
             symtab_define(label_buf, address);
-        } else if (get_directive_val(trimmed, NULL) || true) {
-            // Count any non-label line as an instruction/directive
+        } else if (get_directive_val(trimmed, NULL)) {
+            address++;
+        } else {
             address++;
         }
     }
@@ -138,9 +139,11 @@ int main(int argc, char **argv)
         uint32_t bin;
         if (get_directive_val(trimmed, &bin)) {
             fwrite(&bin, sizeof(bin), 1, out_file);
+            curr_instr_addr += 0x4;
         } else {
             bin = parse_instr(trimmed);
             fwrite(&bin, sizeof(bin), 1, out_file);
+            curr_instr_addr += 0x4;
         }
     }
 

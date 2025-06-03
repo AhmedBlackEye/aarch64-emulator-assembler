@@ -1,6 +1,6 @@
 // Included common definations
 #include <stdint.h>
-#include <common/debug.h>
+#include <debug.h>
 
 inline uint32_t extract_bits(uint32_t instruction, int start, int end)
 {

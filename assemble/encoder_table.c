@@ -40,6 +40,8 @@ static const enc_tab_element encode_table[] = {
     { "movn",  encode_movn },
     { "movz",  encode_movz },
     { "movk",  encode_movk },
+    { "ldr",   encode_load },
+    { "str",   encode_store},
 };
 
 encode_function lookup_encoder(const char *mnemonic)

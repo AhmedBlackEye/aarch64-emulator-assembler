@@ -7,7 +7,7 @@
 #include "global.h"
 #include "shared.h"
 
-static uint32_t encode_load_literal(const char *args[], uint8_t size) {
+static uint32_t encode_load_literal(const char *args[], int size) {
     DEV_ASSERT(size == 2, "Expected arguements should be 2, but got %d", size);
     
     bool sf = (args[0][0] == 'x');
@@ -32,7 +32,7 @@ static uint32_t encode_load_literal(const char *args[], uint8_t size) {
     return instr;
 }
 
-static uint32_t encode_unsigned_offset(const char *args[], uint8_t size, bool is_load) {
+static uint32_t encode_unsigned_offset(const char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 2, "Expected 2 tokens, got %d", size);
     
     bool sf = (args[0][0] == 'x');
@@ -67,7 +67,7 @@ static uint32_t encode_unsigned_offset(const char *args[], uint8_t size, bool is
     return instr;
 }
 
-static uint32_t encode_pre_index(const char *args[], uint8_t size, bool is_load) {
+static uint32_t encode_pre_index(const char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 2, "Expected arguments should be 2, but got %d", size);
     
     uint32_t rt = atoi(args[0] + 1);
@@ -94,7 +94,7 @@ static uint32_t encode_pre_index(const char *args[], uint8_t size, bool is_load)
     return instr;
 }
 
-static uint32_t encode_post_index(const char *args[], uint8_t size, bool is_load) {
+static uint32_t encode_post_index(const char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 3, "Expected arguments should be 3, but got %d", size);
 
     uint32_t rt = atoi(args[0] + 1);
@@ -121,7 +121,7 @@ static uint32_t encode_post_index(const char *args[], uint8_t size, bool is_load
     return instr;
 }
 
-static uint32_t encode_register_offset(const char *args[], uint8_t size, bool is_load) {
+static uint32_t encode_register_offset(const char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 2, "Expected arguements should be 2, but got %d", size);
 
     uint32_t rt = atoi(args[0] + 1);
@@ -145,7 +145,7 @@ static uint32_t encode_register_offset(const char *args[], uint8_t size, bool is
     return instr;
 }  
 
-uint32_t encode_single_data_tranfer(const char *args[], uint8_t size, bool is_load) {
+static uint32_t encode_load_store(const char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 2 || size == 3, "Expected arguements should be 2 or 3, but got %d", size);
        
     if (is_load && args[1][0] != '[') { // Literal Load
@@ -162,4 +162,12 @@ uint32_t encode_single_data_tranfer(const char *args[], uint8_t size, bool is_lo
 
     PANIC("Invalid addressing mode: %s", args[1]);
     return 0;
+}
+
+uint32_t encode_load(const char *args[], int size) {
+    return encode_load_store(args, size, true);
+}
+
+uint32_t encode_store(const char *args[], int size) {
+    return encode_load_store(args, size, false);
 }

@@ -5,6 +5,7 @@
 #include "encode_dp_reg.h"
 #include "encode_dp_imm.h"
 #include "encoder_table.h"
+#include "encode_load_store.h"
 
 typedef uint32_t (*encode_function)(char **, int);
 

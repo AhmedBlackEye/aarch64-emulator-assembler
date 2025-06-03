@@ -1,26 +1,19 @@
-// Included common definations
-#include <stdint.h>
-#include <debug.h>
+#ifndef BIT_UTILS_H
+#define BIT_UTILS_H
 
-inline uint32_t extract_bits(uint32_t instruction, int start, int end)
-{
+#include <stdint.h>
+
+/// Extracts a range of bits from a 32-bit instruction.
+static inline uint32_t extract_bits(uint32_t instruction, int start, int end) {
     int width = end - start + 1;
     uint32_t mask = (1U << width) - 1;
     return (instruction >> start) & mask;
 }
 
-uint64_t sign_extend(uint32_t value, int bits)
-{
-    DEV_ASSERT(bits > 0 && bits <= 32, "Invalid bit width for sign extension: %d", bits);
+/// @brief Sign-extends a value with a specified bit width to 64 bits.
+/// @param value The value to sign-extend.
+/// @param bits The original bit width of the value (must be 1 to 32).
+/// @return The sign-extended 64-bit value.
+uint64_t sign_extend(uint32_t value, int bits);
 
-    uint32_t sign_bit = 1U << (bits - 1);
-    if (value & sign_bit)
-    {
-        uint64_t mask = ~((1ULL << bits) - 1);
-        return value | mask;
-    }
-    else
-    {
-        return value;
-    }
-}
+#endif

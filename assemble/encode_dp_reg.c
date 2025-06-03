@@ -1,8 +1,15 @@
 #include <stdint.h>
 #include <stdio.h>  
 #include <string.h>
+#include <stdlib.h>
 
-// Add prototype functions here
+static uint32_t encode_multiply(char **tokens,
+    int size,
+    uint8_t  x
+);
+
+static uint32_t encode_bit_logic (char **tokens, int size,
+                                  uint8_t opc, uint8_t n);
 
 uint32_t encode_and(char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 0, 0);
@@ -65,7 +72,7 @@ uint32_t encode_mneg(char ** tokens, int size) {
     return encode_multiply(tokens, size, 1);
 }
 
-static uint32_t encode_bit_logic(const char **tokens,
+static uint32_t encode_bit_logic(char **tokens,
     int size,
     uint8_t  opc,
     uint8_t n
@@ -109,7 +116,7 @@ static uint32_t encode_bit_logic(const char **tokens,
     return instr;
 }
 
-static uint32_t encode_multiply(const char **tokens,
+static uint32_t encode_multiply(char **tokens,
     int size,
     uint8_t  x
 ) {
@@ -127,7 +134,7 @@ static uint32_t encode_multiply(const char **tokens,
     return instr;
 }
 
-uint32_t encode_arith_reg(const char **tokens,
+uint32_t encode_arith_reg(char **tokens,
     int size,
     uint8_t  opc
 ) {
@@ -150,8 +157,6 @@ uint32_t encode_arith_reg(const char **tokens,
 
         operand = atoi(tokens[4] + 1);
     }
-
-    uint16_t imm_12 = atoi(tokens[2] + 1);
 
     uint32_t instr = 0;
     instr |= sf << 31;

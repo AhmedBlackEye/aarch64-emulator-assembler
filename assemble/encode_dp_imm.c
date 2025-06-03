@@ -1,7 +1,11 @@
 #include <stdint.h>
-#include <stdio.h>  
+#include <stdio.h>
+#include <stdlib.h>  
 
-// Add prototype functions here
+static uint32_t encode_wmove(char **tokens,
+    int size,
+    uint8_t  opc
+);
 
 uint32_t encode_negs(char **tokens, int size) {
     if (tokens[1][0] == '#') {
@@ -25,7 +29,7 @@ uint32_t encode_movk(char ** tokens, int size) {
 }
 
 // Fix to work for cmp etc
-uint32_t encode_arith_imm(const char **tokens,
+uint32_t encode_arith_imm(char **tokens,
     int size,
     uint8_t  opc
 ) {
@@ -52,7 +56,7 @@ uint32_t encode_arith_imm(const char **tokens,
     return instr;
 }
 
-static uint32_t encode_wmove(const char **tokens,
+static uint32_t encode_wmove(char **tokens,
     int size,
     uint8_t  opc
 ) {

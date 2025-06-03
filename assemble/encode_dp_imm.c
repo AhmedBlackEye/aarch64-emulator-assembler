@@ -7,15 +7,6 @@ static uint32_t encode_wmove(char **tokens,
     uint8_t  opc
 );
 
-uint32_t encode_negs(char **tokens, int size) {
-    if (tokens[1][0] == '#') {
-        return encode_arith_imm(tokens, size, 3);
-    }
-    else {
-        return encode_arith_reg(tokens, size, 3);
-    }
-}
-
 uint32_t encode_movn(char ** tokens, int size) {
     return encode_wmove(tokens, size, 0);
 }

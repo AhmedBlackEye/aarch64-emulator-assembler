@@ -2,6 +2,7 @@
 #include <stdio.h>  
 #include <string.h>
 #include <stdlib.h>
+#include "encode_dp_reg.h"
 
 static uint32_t encode_multiply(char **tokens,
     int size,

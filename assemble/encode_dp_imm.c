@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>  
+#include <stdlib.h>
+#include "encode_dp_imm.h"  
 
 static uint32_t encode_wmove(char **tokens,
     int size,

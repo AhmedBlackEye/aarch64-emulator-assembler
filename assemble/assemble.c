@@ -25,7 +25,7 @@ static char *trim_ws(char *str)
     return str;
 }
 
-bool get_label(const char *line, char *label_buf)
+bool get_label(char *line, char *label_buf)
 {
     char *start = line;
     while (isspace(*start)) start++;
@@ -51,7 +51,7 @@ bool get_label(const char *line, char *label_buf)
     return true;
 }
 
-bool get_directive_val(const char *line, uint32_t *num) {
+bool get_directive_val(char *line, uint32_t *num) {
     while (isspace(*line)) line++;
 
     if (strncmp(line, ".int", 4) != 0) {
@@ -115,8 +115,8 @@ int main(int argc, char **argv)
 
         if (get_label(trimmed, label_buf)) {
             // Label definition on its own line
-            symtab_add(label_buf, address);
-        } else if (get_directive_value(trimmed, NULL) || true) {
+            symtab_define(label_buf, address);
+        } else if (get_directive_val(trimmed, NULL) || true) {
             // Count any non-label line as an instruction/directive
             address++;
         }
@@ -136,7 +136,7 @@ int main(int argc, char **argv)
         }
 
         uint32_t bin;
-        if (get_directive_value(trimmed, &bin)) {
+        if (get_directive_val(trimmed, &bin)) {
             fwrite(&bin, sizeof(bin), 1, out_file);
         } else {
             bin = parse_instr(trimmed);

@@ -35,7 +35,7 @@ branch_type_t detect_branch_type (const char *mnemonic) {
             PANIC_IF(!check_valid_condition_code(condition), "Error: Invalid condition code %s", mnemonic);
             return BRANCH_CONDITIONAL;
         default: 
-            PANIC("Error: Unknown mnemonic condition code: %s", condition)
+            PANIC("Error: Unknown mnemonic condition code: %s", condition);
 
     }
 }

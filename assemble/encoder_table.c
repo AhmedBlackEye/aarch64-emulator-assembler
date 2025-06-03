@@ -4,6 +4,7 @@
 #include "encode_arith.h"
 #include "encode_dp_reg.h"
 #include "encode_dp_imm.h"
+#include "encoder_table.h"
 
 typedef uint32_t (*encode_function)(char **, int);
 

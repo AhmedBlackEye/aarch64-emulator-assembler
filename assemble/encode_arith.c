@@ -63,3 +63,12 @@ uint32_t encode_neg(char **tokens, int size) {
         return encode_arith_reg(tokens, size, 2);
     }
 }
+
+uint32_t encode_negs(char **tokens, int size) {
+    if (tokens[1][0] == '#') {
+        return encode_arith_imm(tokens, size, 3);
+    }
+    else {
+        return encode_arith_reg(tokens, size, 3);
+    }
+}

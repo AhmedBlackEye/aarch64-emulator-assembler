@@ -10,7 +10,6 @@ uint32_t encode_subs  (char **tokens, int size);
 uint32_t encode_cmp   (char **tokens, int size);
 uint32_t encode_cmn   (char **tokens, int size);
 uint32_t encode_neg   (char **tokens, int size);
-uint32_t encode_negs  (char **tokens, int size);
 uint32_t encode_movn  (char **tokens, int size);
 uint32_t encode_movz  (char **tokens, int size);
 uint32_t encode_movk  (char **tokens, int size);

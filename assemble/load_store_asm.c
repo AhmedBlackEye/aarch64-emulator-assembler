@@ -50,7 +50,7 @@ static uint32_t encode_unsigned_offset(const char *args[], uint8_t size, bool is
         PANIC("Parsing failed in Unsigned offset");
     } 
 
-    int scale = sf ? 8 : 4
+    int scale = sf ? 8 : 4;
     int16_t imm12 = imm / scale;
        
     uint32_t instr = 0;
@@ -68,7 +68,7 @@ static uint32_t encode_unsigned_offset(const char *args[], uint8_t size, bool is
 }
 
 static uint32_t encode_pre_index(const char *args[], uint8_t size, bool is_load) {
-    DEV_ASSERT(size == 2 "Expected arguments should be 2, but got %d", size);
+    DEV_ASSERT(size == 2, "Expected arguments should be 2, but got %d", size);
     
     uint32_t rt = atoi(args[0] + 1);
     bool sf = (args[0][0] == 'x');
@@ -95,7 +95,7 @@ static uint32_t encode_pre_index(const char *args[], uint8_t size, bool is_load)
 }
 
 static uint32_t encode_post_index(const char *args[], uint8_t size, bool is_load) {
-    DEV_ASSERT(size == 3 "Expected arguments should be 3, but got %d", size);
+    DEV_ASSERT(size == 3, "Expected arguments should be 3, but got %d", size);
 
     uint32_t rt = atoi(args[0] + 1);
     bool sf = (args[0][0] == 'x');
@@ -149,7 +149,7 @@ uint32_t encode_single_data_tranfer(const char *args[], uint8_t size, bool is_lo
     DEV_ASSERT(size == 2 || size == 3, "Expected arguements should be 2 or 3, but got %d", size);
        
     if (is_load && args[1][0] != '[') { // Literal Load
-        return encode_load_literal(args, size, is_load);
+        return encode_load_literal(args, size);
     } else if (strstr(args[1], "]!")) { // Pre-indexed
         return encode_pre_index(args, size, is_load);
     } else if (size == 3) { // Post-indexed

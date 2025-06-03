@@ -7,7 +7,7 @@
 #include "global.h"
 #include "shared.h"
 
-static uint32_t encode_load_literal(const char *args[], int size) {
+static uint32_t encode_load_literal(char *args[], int size) {
     DEV_ASSERT(size == 2, "Expected arguements should be 2, but got %d", size);
     
     bool sf = (args[0][0] == 'x');
@@ -32,20 +32,20 @@ static uint32_t encode_load_literal(const char *args[], int size) {
     return instr;
 }
 
-static uint32_t encode_unsigned_offset(const char *args[], int size, bool is_load) {
+static uint32_t encode_unsigned_offset(char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 2, "Expected 2 tokens, got %d", size);
     
     bool sf = (args[0][0] == 'x');
     bool U = 1;
     uint8_t rt = atoi(args[0] + 1);
+    
     uint8_t xn;
-    int imm;
-
-    int n = sscanf(args[1], "[%*c%d, #%d]", &xn, &imm);
-    if (n == 2) {
-
-    } else if (n == 1) {
-        imm = 0;
+    int tmp_xn = -1; 
+    int imm = 0;
+    if (sscanf(args[1], "[x%d, #%d]", &tmp_xn, &imm) == 2) {
+        xn = (uint8_t)tmp_xn;
+    } else if (sscanf(args[1], "[x%d]", &tmp_xn) == 1) {
+        xn = (uint8_t)tmp_xn;
     } else {
         PANIC("Parsing failed in Unsigned offset");
     } 
@@ -67,7 +67,7 @@ static uint32_t encode_unsigned_offset(const char *args[], int size, bool is_loa
     return instr;
 }
 
-static uint32_t encode_pre_index(const char *args[], int size, bool is_load) {
+static uint32_t encode_pre_index(char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 2, "Expected arguments should be 2, but got %d", size);
     
     uint32_t rt = atoi(args[0] + 1);
@@ -76,7 +76,10 @@ static uint32_t encode_pre_index(const char *args[], int size, bool is_load) {
     
     uint8_t xn;
     int16_t simm9; 
-    sscanf(args[1], "[%*c%d, #%d]!", &xn, &simm9);
+    int tmp_xn, tmp_simm9;
+    sscanf(args[1], "[x%d, #%d]!", &tmp_xn, &tmp_simm9);
+    xn = (uint8_t)tmp_xn;
+    simm9 = (int16_t)tmp_simm9;
 
     PANIC_IF(simm9 < -256 || simm9 > 255, "Pre-index immediate %d out of range [-256, 255]",
              simm9);
@@ -94,7 +97,7 @@ static uint32_t encode_pre_index(const char *args[], int size, bool is_load) {
     return instr;
 }
 
-static uint32_t encode_post_index(const char *args[], int size, bool is_load) {
+static uint32_t encode_post_index(char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 3, "Expected arguments should be 3, but got %d", size);
 
     uint32_t rt = atoi(args[0] + 1);
@@ -102,8 +105,10 @@ static uint32_t encode_post_index(const char *args[], int size, bool is_load) {
     PANIC_IF(rt > 31, "Invalid target register number: %u", rt);
 
     uint8_t xn;
+    int tmp_xn;
     int16_t simm9 = atoi(args[2] + 1);
-    sscanf(args[1], "[%d]", &xn);
+    sscanf(args[1], "[%d]", &tmp_xn);
+    xn = (uint8_t)tmp_xn;
 
     PANIC_IF(simm9 < -256 || simm9 > 255, "Pre-index immediate %d out of range [-256, 255]",
              simm9);
@@ -121,7 +126,7 @@ static uint32_t encode_post_index(const char *args[], int size, bool is_load) {
     return instr;
 }
 
-static uint32_t encode_register_offset(const char *args[], int size, bool is_load) {
+static uint32_t encode_register_offset(char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 2, "Expected arguements should be 2, but got %d", size);
 
     uint32_t rt = atoi(args[0] + 1);
@@ -129,7 +134,10 @@ static uint32_t encode_register_offset(const char *args[], int size, bool is_loa
     
     uint8_t xn;
     uint8_t xm;
-    sscanf(args[1], "[%*c%d, %*c%d]", &xn, &xm);
+    int tmp_xn, tmp_xm;
+    sscanf(args[1], "[%*c%d, %*c%d]", &tmp_xn, &tmp_xm);
+    xn = (uint8_t)tmp_xn;
+    xm = (uint8_t)tmp_xm;
 
     uint32_t instr = 0;
     instr |= rt << 0;
@@ -145,7 +153,7 @@ static uint32_t encode_register_offset(const char *args[], int size, bool is_loa
     return instr;
 }  
 
-static uint32_t encode_load_store(const char *args[], int size, bool is_load) {
+static uint32_t encode_load_store(char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 2 || size == 3, "Expected arguements should be 2 or 3, but got %d", size);
        
     if (is_load && args[1][0] != '[') { // Literal Load
@@ -164,10 +172,10 @@ static uint32_t encode_load_store(const char *args[], int size, bool is_load) {
     return 0;
 }
 
-uint32_t encode_load(const char *args[], int size) {
+uint32_t encode_load(char *args[], int size) {
     return encode_load_store(args, size, true);
 }
 
-uint32_t encode_store(const char *args[], int size) {
+uint32_t encode_store(char *args[], int size) {
     return encode_load_store(args, size, false);
 }

@@ -4,76 +4,76 @@
 #include <stdlib.h>
 #include "encode_dp_reg.h"
 
-static uint32_t encode_multiply(char **tokens,
+static uint32_t encode_multiply(const char **tokens,
     int size,
     uint8_t  x
 );
 
-static uint32_t encode_bit_logic (char **tokens, int size,
+static uint32_t encode_bit_logic (const char **tokens, int size,
                                   uint8_t opc, uint8_t n);
 
-uint32_t encode_and(char ** tokens, int size) {
+uint32_t encode_and(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 0, 0);
 }
 
-uint32_t encode_bic(char ** tokens, int size) {
+uint32_t encode_bic(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 0, 1);
 }
 
-uint32_t encode_orr(char ** tokens, int size) {
+uint32_t encode_orr(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 1, 0);
 }
 
-uint32_t encode_orn(char ** tokens, int size) {
+uint32_t encode_orn(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 1, 1);
 }
 
-uint32_t encode_eor(char ** tokens, int size) {
+uint32_t encode_eor(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 2, 0);
 }
 
-uint32_t encode_eon(char ** tokens, int size) {
+uint32_t encode_eon(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 2, 1);
 }
 
-uint32_t encode_ands(char ** tokens, int size) {
+uint32_t encode_ands(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 3, 0);
 }
 
-uint32_t encode_bics(char ** tokens, int size) {
+uint32_t encode_bics(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 3, 1);
 }
 
 // Maybe remove and just call encode_ands for example
-uint32_t encode_tst(char ** tokens, int size) {
+uint32_t encode_tst(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 3, 0);
 }
 
-uint32_t encode_mvn(char ** tokens, int size) {
+uint32_t encode_mvn(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 1, 1);
 }
 
-uint32_t encode_mov(char ** tokens, int size) {
+uint32_t encode_mov(const char ** tokens, int size) {
     return encode_bit_logic(tokens, size, 1, 0);
 }
 
-uint32_t encode_madd(char ** tokens, int size) {
+uint32_t encode_madd(const char ** tokens, int size) {
     return encode_multiply(tokens, size, 0);
 }
 
-uint32_t encode_msub(char ** tokens, int size) {
+uint32_t encode_msub(const char ** tokens, int size) {
     return encode_multiply(tokens, size, 1);
 }
 
-uint32_t encode_mul(char ** tokens, int size) {
+uint32_t encode_mul(const char ** tokens, int size) {
     return encode_multiply(tokens, size, 0);
 }
 
-uint32_t encode_mneg(char ** tokens, int size) {
+uint32_t encode_mneg(const char ** tokens, int size) {
     return encode_multiply(tokens, size, 1);
 }
 
-static uint32_t encode_bit_logic(char **tokens,
+static uint32_t encode_bit_logic(const char **tokens,
     int size,
     uint8_t  opc,
     uint8_t n
@@ -117,7 +117,7 @@ static uint32_t encode_bit_logic(char **tokens,
     return instr;
 }
 
-static uint32_t encode_multiply(char **tokens,
+static uint32_t encode_multiply(const char **tokens,
     int size,
     uint8_t  x
 ) {
@@ -137,7 +137,7 @@ static uint32_t encode_multiply(char **tokens,
     return instr;
 }
 
-uint32_t encode_arith_reg(char **tokens,
+uint32_t encode_arith_reg(const char **tokens,
     int size,
     uint8_t  opc
 ) {

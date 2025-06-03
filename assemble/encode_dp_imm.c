@@ -5,25 +5,25 @@
 #include "encode_dp_imm.h"
 #include "global.h"
 
-static uint32_t encode_wmove(char **tokens,
+static uint32_t encode_wmove(const char **tokens,
     int size,
     uint8_t  opc
 );
 
-uint32_t encode_movn(char ** tokens, int size) {
+uint32_t encode_movn(const char ** tokens, int size) {
     return encode_wmove(tokens, size, 0);
 }
 
-uint32_t encode_movz(char ** tokens, int size) {
+uint32_t encode_movz(const char ** tokens, int size) {
     return encode_wmove(tokens, size, 2);
 }
 
-uint32_t encode_movk(char ** tokens, int size) {
+uint32_t encode_movk(const char ** tokens, int size) {
     return encode_wmove(tokens, size, 3);
 }
 
 // Fix to work for cmp etc
-uint32_t encode_arith_imm(char **tokens,
+uint32_t encode_arith_imm(const char **tokens,
     int size,
     uint8_t  opc
 ) {
@@ -50,7 +50,7 @@ uint32_t encode_arith_imm(char **tokens,
     return instr;
 }
 
-static uint32_t encode_wmove(char **tokens,
+static uint32_t encode_wmove(const char **tokens,
     int size,
     uint8_t  opc
 ) {

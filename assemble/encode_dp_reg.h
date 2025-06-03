@@ -3,21 +3,21 @@
 
 #include <stdint.h>
 
-uint32_t encode_and  (char **tokens, int size);
-uint32_t encode_bic  (char **tokens, int size);
-uint32_t encode_orr  (char **tokens, int size);
-uint32_t encode_orn  (char **tokens, int size);
-uint32_t encode_eor  (char **tokens, int size);
-uint32_t encode_eon  (char **tokens, int size);
-uint32_t encode_ands (char **tokens, int size);
-uint32_t encode_bics (char **tokens, int size);
-uint32_t encode_tst  (char **tokens, int size);
-uint32_t encode_mvn  (char **tokens, int size);
-uint32_t encode_mov  (char **tokens, int size);
-uint32_t encode_madd(char **tokens, int size);
-uint32_t encode_msub(char **tokens, int size);
-uint32_t encode_mul (char **tokens, int size);
-uint32_t encode_mneg(char **tokens, int size);
-uint32_t encode_arith_reg(char **tokens, int size, uint8_t opc);
+uint32_t encode_and   (const char **tokens, int size);
+uint32_t encode_bic   (const char **tokens, int size);
+uint32_t encode_orr   (const char **tokens, int size);
+uint32_t encode_orn   (const char **tokens, int size);
+uint32_t encode_eor   (const char **tokens, int size);
+uint32_t encode_eon   (const char **tokens, int size);
+uint32_t encode_ands  (const char **tokens, int size);
+uint32_t encode_bics  (const char **tokens, int size);
+uint32_t encode_tst   (const char **tokens, int size);
+uint32_t encode_mvn   (const char **tokens, int size);
+uint32_t encode_mov   (const char **tokens, int size);
+uint32_t encode_madd  (const char **tokens, int size);
+uint32_t encode_msub  (const char **tokens, int size);
+uint32_t encode_mul   (const char **tokens, int size);
+uint32_t encode_mneg  (const char **tokens, int size);
+uint32_t encode_arith_reg(const char **tokens, int size, uint8_t opc);
 
 #endif

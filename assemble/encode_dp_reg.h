@@ -18,6 +18,6 @@ uint32_t encode_madd(char **tokens, int size);
 uint32_t encode_msub(char **tokens, int size);
 uint32_t encode_mul (char **tokens, int size);
 uint32_t encode_mneg(char **tokens, int size);
-uint32_t encode_arith_reg(const char **tokens, int size, uint8_t opc);
+uint32_t encode_arith_reg(char **tokens, int size, uint8_t opc);
 
 #endif

@@ -4,8 +4,11 @@
 #include "encode_arith.h"
 #include "encode_dp_reg.h"
 #include "encode_dp_imm.h"
+#include "encoder_table.h"
+#include "encode_load_store.h"
+#include "debug.h"
 
-typedef uint32_t (*encode_function)(char **, int);
+typedef uint32_t (*encode_function)(const char **, int);
 
 typedef struct {
     const char *mnemonic;
@@ -39,12 +42,15 @@ static const enc_tab_element encode_table[] = {
     { "movn",  encode_movn },
     { "movz",  encode_movz },
     { "movk",  encode_movk },
+    { "ldr",   encode_load },
+    { "str",   encode_store},
+    {NULL, NULL}
 };
 
 encode_function lookup_encoder(const char *mnemonic)
 {
-    for (const enc_tab_element *e = encode_table; e->mnemonic; ++e)
+    for (const enc_tab_element *e = encode_table; e->mnemonic != NULL; e++)
         if (strcmp(e->mnemonic, mnemonic) == 0)
             return e->fn;
-    return NULL;  
-};
+    PANIC("Mnemonic: %s not present in the encoder table\n", mnemonic);
+}

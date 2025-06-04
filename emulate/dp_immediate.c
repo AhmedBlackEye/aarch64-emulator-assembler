@@ -65,11 +65,13 @@ static void execute_wmove(uint32_t instr)
         result_or_op = (uint64_t)imm16 << (hw * 16);
         break;
     case OPC_MOVK:
+    {
         uint64_t zero_mask = ~((uint64_t)0xFFFF << (hw * 16));
         uint64_t register_contents = read_reg(rd, sf);
         uint64_t insert_value = ((uint64_t)imm16) << (hw * 16);
         result_or_op = (register_contents & zero_mask) | insert_value;
         break;
+    }
     }
     write_reg(rd, result_or_op, sf);
 }

@@ -115,6 +115,7 @@ int main(int argc, char **argv)
     uint32_t address = 0;
     char line[MAX_LINE_SIZE];
     char label_buf[MAX_LABEL_SIZE];
+    uint32_t bin;
 
     while (fgets(line, sizeof(line), in_file)) {
         char *trimmed = trim_ws(line);
@@ -124,7 +125,7 @@ int main(int argc, char **argv)
 
         if (get_label(trimmed, label_buf)) {
             symtab_define(label_buf, address);
-        } else if (get_directive_val(trimmed, NULL)) {
+        } else if (get_directive_val(trimmed, &bin)) {
             address += 4;
         } else {
             address += 4;
@@ -144,7 +145,6 @@ int main(int argc, char **argv)
             continue;
         }
 
-        uint32_t bin;
         if (get_directive_val(trimmed, &bin)) {
             fwrite(&bin, sizeof(bin), 1, out_file);
             curr_instr_addr += 0x4;

@@ -52,7 +52,7 @@ static uint32_t encode_unsigned_offset(const char *args[], int size, bool is_loa
     uint8_t xn;
     int tmp_xn = -1; 
     int imm = 0;
-    if (sscanf(args[1], "[x%d, #%d]", &tmp_xn, &imm) == 2) {
+    if (sscanf(args[1], "[x%d, #%i]", &tmp_xn, &imm) == 2) {
         xn = (uint8_t)tmp_xn;
     } else if (sscanf(args[1], "[x%d]", &tmp_xn) == 1) {
         xn = (uint8_t)tmp_xn;
@@ -87,7 +87,7 @@ static uint32_t encode_pre_index(const char *args[], int size, bool is_load) {
     uint8_t xn;
     int16_t simm9; 
     int tmp_xn, tmp_simm9;
-    sscanf(args[1], "[x%d, #%d]!", &tmp_xn, &tmp_simm9);
+    sscanf(args[1], "[x%d, #%i]!", &tmp_xn, &tmp_simm9);
     xn = (uint8_t)tmp_xn;
     simm9 = (int16_t)tmp_simm9;
 

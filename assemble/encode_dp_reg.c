@@ -128,7 +128,7 @@ static uint32_t encode_bit_logic(const char **tokens,
     uint32_t instr = 0;
     instr |= sf << 31;
     instr |= opc << 29;
-    instr |= 0b0101 << 24;
+    instr |= 0b01010 << 24;
     instr |= shift << 22; 
     instr |= n << 21;
     instr |= rm << 16;

@@ -6,6 +6,7 @@
 #include "encode_dp_imm.h"
 #include "encoder_table.h"
 #include "encode_load_store.h"
+#include "branch.h"
 #include "debug.h"
 
 typedef uint32_t (*encode_function)(const char **, int);
@@ -44,6 +45,15 @@ static const enc_tab_element encode_table[] = {
     { "movk",  encode_movk },
     { "ldr",   encode_load },
     { "str",   encode_store},
+    { "b",     encode_b    },
+    { "br",    encode_br   },
+    { "b.eq",  encode_b_eq },
+    { "b.ne",  encode_b_ne },
+    { "b.ge",  encode_b_ge },
+    { "b.lt",  encode_b_lt },
+    { "b.gt",  encode_b_gt },
+    { "b.le",  encode_b_le },
+    { "b.al",  encode_b_al },
     {NULL, NULL}
 };
 

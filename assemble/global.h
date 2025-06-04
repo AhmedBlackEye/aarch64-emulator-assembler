@@ -11,6 +11,7 @@
  */
 #define STR_EQUAL(str1, str2) (strcmp(str1, str2) == 0)
 
+uint8_t parse_reg(const char *reg);
 
 extern uint64_t curr_instr_addr;
 

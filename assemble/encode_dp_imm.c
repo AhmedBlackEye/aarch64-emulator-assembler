@@ -6,6 +6,7 @@
 #include "global.h"
 #include "debug.h"
 #include "encode_dp_reg.h"
+#include "global.h"
 
 static uint32_t encode_wmove(const char **tokens,
     int size,
@@ -45,13 +46,13 @@ uint32_t encode_arith_imm(const char **tokens,
     uint8_t rd, rn;
     if (type == RD_ZR) {
         rd = 31;
-        rn = (uint8_t) strtol(tokens[0] + 1, NULL, 0);
+        rn = parse_reg(tokens[0]);
     } else if (type == RN_ZR) {
-        rd = (uint8_t) strtol(tokens[0] + 1, NULL, 0);
+        rd = parse_reg(tokens[0]);
         rn = 31;
     } else {
-        rd = (uint8_t) strtol(tokens[0] + 1, NULL, 0);
-        rn = (uint8_t) strtol(tokens[1] + 1, NULL, 0);
+        rd = parse_reg(tokens[0]);
+        rn = parse_reg(tokens[1]);
     }
 
     uint32_t instr = 0;
@@ -89,6 +90,6 @@ static uint32_t encode_wmove(const char **tokens,
     instr |= 0b101 << 23;
     instr |= hw << 21;
     instr |= imm_16 << 5;
-    instr |= (uint8_t) strtol(tokens[0] + 1, NULL, 0);
+    instr |= parse_reg(tokens[0]);
     return instr;
 }

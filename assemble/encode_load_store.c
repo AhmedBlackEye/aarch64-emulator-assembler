@@ -119,7 +119,7 @@ static uint32_t encode_post_index(const char *args[], int size, bool is_load) {
     uint8_t xn;
     int tmp_xn;
     int16_t simm9 = atoi(args[2] + 1);
-    sscanf(args[1], "[%d]", &tmp_xn);
+    sscanf(args[1], "[x%d]", &tmp_xn);
     xn = (uint8_t)tmp_xn;
 
     PANIC_IF(simm9 < -256 || simm9 > 255, "Pre-index immediate %d out of range [-256, 255]", simm9);
@@ -147,7 +147,7 @@ static uint32_t encode_register_offset(const char *args[], int size, bool is_loa
     uint8_t xn;
     uint8_t xm;
     int tmp_xn, tmp_xm;
-    sscanf(args[1], "[%*c%d, %*c%d]", &tmp_xn, &tmp_xm);
+    sscanf(args[1], "[x%d, x%d]", &tmp_xn, &tmp_xm);
     xn = (uint8_t)tmp_xn;
     PANIC_IF(xn > 31, "Invalid base register: %u", xn); 
     xm = (uint8_t)tmp_xm;

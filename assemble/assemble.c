@@ -120,9 +120,9 @@ int main(int argc, char **argv)
         if (get_label(trimmed, label_buf)) {
             symtab_define(label_buf, address);
         } else if (get_directive_val(trimmed, NULL)) {
-            address++;
+            address += 4;
         } else {
-            address++;
+            address += 4;
         }
     }
 

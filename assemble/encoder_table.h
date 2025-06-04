@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef uint32_t (*encode_function)(char **, int);
+typedef uint32_t (*encode_function)(const char **, int);
 
 encode_function lookup_encoder(const char *mnemonic);
 

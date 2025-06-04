@@ -2,17 +2,11 @@
 #define ENCODE_DP_IMM_H
 
 #include <stdint.h>
+#include "encode_dp_reg.h"
 
-uint32_t encode_add   (char **tokens, int size);
-uint32_t encode_adds  (char **tokens, int size);
-uint32_t encode_sub   (char **tokens, int size);
-uint32_t encode_subs  (char **tokens, int size);
-uint32_t encode_cmp   (char **tokens, int size);
-uint32_t encode_cmn   (char **tokens, int size);
-uint32_t encode_neg   (char **tokens, int size);
-uint32_t encode_movn  (char **tokens, int size);
-uint32_t encode_movz  (char **tokens, int size);
-uint32_t encode_movk  (char **tokens, int size);
-uint32_t encode_arith_imm(char **tokens, int size, uint8_t opc);
+uint32_t encode_movn  (const char **tokens, int size);
+uint32_t encode_movz  (const char **tokens, int size);
+uint32_t encode_movk  (const char **tokens, int size);
+uint32_t encode_arith_imm(const char **tokens, int size, uint8_t opc, INSTRUCTION_TYPE type);
 
 #endif

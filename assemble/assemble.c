@@ -14,6 +14,8 @@
 #define MAX_NUM_LINES 10000
 #define MAX_LINE_SIZE 256
 #define MAX_LABEL_SIZE 256
+#define INSTRUCTION_SIZE 4
+#define EXPECTED_ARGC 3
 
 static char *trim_ws(char *str);
 static bool get_label(char *line, char *label_buf);
@@ -66,7 +68,7 @@ bool get_directive_val(char *line, uint32_t *num) {
     if (strncmp(line, ".int", 4) != 0) {
         return false;
     }
-    line += 4;
+    line += INSTRUCTION_SIZE;
 
     while (isspace(*line)) {
         line++;
@@ -87,7 +89,7 @@ bool get_directive_val(char *line, uint32_t *num) {
 
 int main(int argc, char **argv)
 {
-    if (argc != 3)
+    if (argc != EXPECTED_ARGC)
     {
         fprintf(stderr, "Usage: %s <input_file> <output_file>\n", argv[0]);
         return EXIT_FAILURE;
@@ -126,9 +128,9 @@ int main(int argc, char **argv)
         if (get_label(trimmed, label_buf)) {
             symtab_define(label_buf, address);
         } else if (get_directive_val(trimmed, &bin)) {
-            address += 4;
+            address += INSTRUCTION_SIZE;
         } else {
-            address += 4;
+            address += INSTRUCTION_SIZE;
         }
     }
 

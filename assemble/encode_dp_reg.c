@@ -148,10 +148,9 @@ static uint32_t encode_multiply(const char **tokens,
     uint8_t ra = (size == 4) ? atoi(tokens[3] + 1) : 31;
 
     uint8_t sf = (tokens[0][0] == 'x') ? 1 : 0;
-
     uint32_t instr = 0;
     instr |= sf << 31;
-    instr |= 0xD8 << 21;
+    instr |= 0x0D8 << 21;
     instr |= atoi(tokens[2] + 1) << 16;
     instr |= x << 15;
     instr |= ra << 10;
@@ -172,8 +171,6 @@ uint32_t encode_arith_reg(const char **tokens,
 
     uint8_t shift = 0x0;
     uint8_t operand = 0x0;
-
-    uint8_t offset = (size == 2 || size == 4) ? 0 : 1;
 
     if (size == 4 || size == 5) {
         const char *shift_token = tokens[size - 2];

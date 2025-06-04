@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdint.h>
 #include <ctype.h>
-
 #include "encoder_table.h"
 #include "debug.h"
 
@@ -15,22 +14,20 @@ static char *ltrim(char *s) {
 
 uint32_t parse_instr(char *line) {
     char *tokens[MAX_TOKENS];
-    int token_count = 0;
+    int num_tokens = 0;
 
-    // Extract mnemonic
     char *saveptr = NULL;
     char *mnemonic = strtok_r(line, " \t", &saveptr);
-    PANIC_IF(mnemonic == NULL, "Error: missing mnemonic\n. Line: %s", line);
+    PANIC_IF(mnemonic == NULL, "parse_instr: no mnemonic read");
 
-    // Extract operands
     char *arg = strtok_r(NULL, ",", &saveptr);
-    while (arg != NULL && token_count < MAX_TOKENS) {
-        tokens[token_count++] = ltrim(arg);
+    while (arg != NULL && num_tokens < MAX_TOKENS) {
+        tokens[num_tokens++] = ltrim(arg);
         arg = strtok_r(NULL, ",", &saveptr);
     }
 
-    encode_function fn = lookup_encoder(mnemonic);
-    PANIC_IF(!fn, "Error: unknown mnemonic '%s'\n", mnemonic);
+    PANIC_IF(num_tokens < 1, "parse_instr: insufficient operands for %s", mnemonic);
 
-    return fn(tokens, token_count);
+    encode_function fn = lookup_encoder(mnemonic);
+    return fn((const char **)tokens, num_tokens);
 }

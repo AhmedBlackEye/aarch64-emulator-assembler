@@ -31,11 +31,9 @@ uint32_t encode_arith_imm(const char **tokens,
 ) {
     
     PANIC_IF(!(size == 3 || size == 5 || size == 2 || size == 4),"encode_arith_imm: unexpected number of tokens: %d", size);
-
-    uint8_t offset = (type == STANDARD) ? 0 : 1;
     
     uint8_t sh = 0;
-    if (size == 5 && STR_EQUAL(tokens[4], "#12") || size == 4 && STR_EQUAL(tokens[3], "#12")) {
+    if ((size == 5 && STR_EQUAL(tokens[4], "#12")) || (size == 4 && STR_EQUAL(tokens[3], "#12"))) {
         sh = 1;
     }
 

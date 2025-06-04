@@ -88,7 +88,7 @@ uint32_t encode_conditional_branch(int64_t offset, const char *mnemonic) {
     return (0x54 << 24) | ((simm19_val & mask_bits(19)) << 5) | cond;
 }
 
-uint32_t assemble_branch_instruction(const char *mnemonic, const char **operands, uint32_t current_address, uint32_t target_address) {
+uint32_t assemble_branch_instruction(const char *mnemonic, const char **args, uint32_t current_address, uint32_t target_address) {
     branch_type_t branch_type = detect_branch_type(mnemonic);
     switch (branch_type) {
         case BRANCH_UNCONDITIONAL:
@@ -97,8 +97,7 @@ uint32_t assemble_branch_instruction(const char *mnemonic, const char **operands
             return encode_unconditional_branch(offset);
         case BRANCH_REGISTER:
             // Parse operands[0] to get the reg num: e.g. "x5" = 5 
-            uint32_t reg_num;
-            uint32_t extract_reg = sscanf(operands[0], "%u", &reg_num);
+            uint32_t reg_num = args[0] + 1;
             return encode_register_branch(reg_num);
         case BRANCH_CONDITIONAL:
             uint32_t offset = (int64_t)target_address - (int64_t)current_address;

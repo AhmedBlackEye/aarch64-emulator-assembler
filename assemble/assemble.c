@@ -15,6 +15,11 @@
 #define MAX_LINE_SIZE 256
 #define MAX_LABEL_SIZE 256
 
+static char *trim_ws(char *str);
+static bool get_label(char *line, char *label_buf);
+static bool get_directive_val(char *line, uint32_t *num);
+
+
 static char *trim_ws(char *str)
 {
     while (isspace(*str)) str++;

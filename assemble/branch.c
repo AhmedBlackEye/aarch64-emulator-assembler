@@ -33,11 +33,13 @@ branch_type_t detect_branch_type (const char *mnemonic) {
             PANIC_IF(mnemonic[2] != '\0', "Error: Invalid register branch %s", mnemonic);
             return BRANCH_REGISTER;
         case '.':
-            const char *condition = &mnemonic[2];
-            PANIC_IF(!check_valid_condition_code(condition), "Error: Invalid condition code %s", mnemonic);
-            return BRANCH_CONDITIONAL;
+            {
+                const char *condition = &mnemonic[2];
+                PANIC_IF(!check_valid_condition_code(condition), "Error: Invalid condition code %s", mnemonic);
+                return BRANCH_CONDITIONAL;
+            }
         default: 
-            PANIC("Error: Unknown mnemonic condition code: %s", condition);
+            PANIC("Error: Unknown mnemonic condition code: %s", mnemonic);
 
     }
 }
@@ -88,7 +90,7 @@ uint32_t encode_b(const char **tokens, int size) {
 
 uint32_t encode_br(const char **tokens, int size) {
     PANIC_IF(size != 1, "Size of br <register> instruction must be 1. Size was: %d", size);
-    PANIC_IF(tokens[0][0] != "x", "Expected a regiser for br <register> but got %s", tokens[0]);
+    PANIC_IF(tokens[0][0] != 'x', "Expected a regiser for br <register> but got %s", tokens[0]);
 
     uint32_t target_register = (uint32_t)atoi(tokens[0] + 1);
 
@@ -119,30 +121,30 @@ static uint32_t encode_conditional_branch_generic(const char **tokens, int size,
 
 // Encode branch conditionals.
 uint32_t encode_b_eq(const char **tokens, int size) {
-    encode_conditional_branch_generic(tokens, size, "b.eq");
+    return encode_conditional_branch_generic(tokens, size, "b.eq");
 }
 
 uint32_t encode_b_ne(const char **tokens, int size) {
-    encode_conditional_branch_generic(tokens, size, "b.ne");
+    return encode_conditional_branch_generic(tokens, size, "b.ne");
 }
 
 uint32_t encode_b_ge(const char **tokens, int size) {
-    encode_conditional_branch_generic(tokens, size, "b.ge");
+    return encode_conditional_branch_generic(tokens, size, "b.ge");
 }
 
 uint32_t encode_b_lt(const char **tokens, int size) {
-    encode_conditional_branch_generic(tokens, size, "b.lt");
+    return encode_conditional_branch_generic(tokens, size, "b.lt");
 }
 
 uint32_t encode_b_gt(const char **tokens, int size) {
-    encode_conditional_branch_generic(tokens, size, "b.gt");
+    return encode_conditional_branch_generic(tokens, size, "b.gt");
 }
 
 uint32_t encode_b_le(const char **tokens, int size) {
-    encode_conditional_branch_generic(tokens, size, "b.le");
+    return encode_conditional_branch_generic(tokens, size, "b.le");
 }
 
 uint32_t encode_b_al(const char **tokens, int size) {
-    encode_conditional_branch_generic(tokens, size, "b.al");
+    return encode_conditional_branch_generic(tokens, size, "b.al");
 }
 

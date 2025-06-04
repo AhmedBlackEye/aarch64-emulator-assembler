@@ -2,13 +2,20 @@
 #define BRANCH_H
 
 #include <stdint.h>
+
 /**
- * Translate branch instructions into an assembly encoding
- * @param mnemonic The branch instruction type
- * @param operands The operands of the branch instruction (literal, register number.)
- * @param current_address The current address of the PC
- * @param target_address The target address for the branch instruction
+ * Branch instruction encoders that match the encoder_table interface
  */
-uint32_t assemble_branch_instruction(const char *mnemonic, const char **operands, uint32_t current_address, uint32_t target_address);
+uint32_t encode_b(const char **tokens, int size);      // b <literal>
+uint32_t encode_br(const char **tokens, int size);     // br xn
+
+// Conditional branches
+uint32_t encode_b_eq(const char **tokens, int size);   // b.eq <literal>
+uint32_t encode_b_ne(const char **tokens, int size);   // b.ne <literal>
+uint32_t encode_b_ge(const char **tokens, int size);   // b.ge <literal>
+uint32_t encode_b_lt(const char **tokens, int size);   // b.lt <literal>
+uint32_t encode_b_gt(const char **tokens, int size);   // b.gt <literal>
+uint32_t encode_b_le(const char **tokens, int size);   // b.le <literal>
+uint32_t encode_b_al(const char **tokens, int size);   // b.al <literal>
 
 #endif

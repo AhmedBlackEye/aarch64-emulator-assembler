@@ -29,28 +29,29 @@ uint32_t encode_arith_imm(const char **tokens,
     uint8_t  opc,
     INSTRUCTION_TYPE type
 ) {
-    
-    PANIC_IF(!(size == 3 || size == 5 || size == 2 || size == 4),"encode_arith_imm: unexpected number of tokens: %d", size);
-    
+    PANIC_IF(!(size == 3 || size == 5 || size == 2 || size == 4),
+        "encode_arith_imm: unexpected number of tokens: %d", size);
+
     uint8_t sh = 0;
-    if ((size == 5 && STR_EQUAL(tokens[4], "#12")) || (size == 4 && STR_EQUAL(tokens[3], "#12"))) {
+    if ((size == 5 && STR_EQUAL(tokens[4], "#12")) || 
+        (size == 4 && STR_EQUAL(tokens[3], "#12"))) {
         sh = 1;
     }
 
     uint8_t sf = (tokens[0][0] == 'x') ? 1 : 0;
 
-    uint16_t imm_12 = atoi(tokens[(type == STANDARD) ? 2 : 1] + 1);
+    uint16_t imm_12 = (uint16_t) strtol(tokens[(type == STANDARD) ? 2 : 1] + 1, NULL, 0);
 
     uint8_t rd, rn;
     if (type == RD_ZR) {
         rd = 31;
-        rn = atoi(tokens[0] + 1);
+        rn = (uint8_t) strtol(tokens[0] + 1, NULL, 0);
     } else if (type == RN_ZR) {
-        rd = atoi(tokens[0] + 1);
+        rd = (uint8_t) strtol(tokens[0] + 1, NULL, 0);
         rn = 31;
     } else {
-        rd = atoi(tokens[0] + 1);
-        rn = atoi(tokens[1] + 1);
+        rd = (uint8_t) strtol(tokens[0] + 1, NULL, 0);
+        rn = (uint8_t) strtol(tokens[1] + 1, NULL, 0);
     }
 
     uint32_t instr = 0;
@@ -69,26 +70,25 @@ static uint32_t encode_wmove(const char **tokens,
     int size,
     uint8_t  opc
 ) {
-
-    PANIC_IF(!(size == 2 || size == 4),"encode_wmove: unexpected number of tokens: %d", size);
+    PANIC_IF(!(size == 2 || size == 4),
+        "encode_wmove: unexpected number of tokens: %d", size);
 
     uint8_t hw = 0;
     if (size == 4) {
-        hw = atoi(tokens[3] + 1) / 16;
+        hw = (uint8_t)(strtol(tokens[3] + 1, NULL, 0) / 16);
     }
 
     uint8_t sf = (tokens[0][0] == 'x') ? 1 : 0;
 
-    uint16_t imm_16 = atoi(tokens[1] + 1);
+    uint16_t imm_16 = (uint16_t) strtol(tokens[1] + 1, NULL, 0);
 
     uint32_t instr = 0;
     instr |= sf << 31;
     instr |= opc << 29;
     instr |= 0b100 << 26;
-    instr |= 0b101 << 23; 
+    instr |= 0b101 << 23;
     instr |= hw << 21;
-     
     instr |= imm_16 << 5;
-    instr |= atoi(tokens[0] + 1);
+    instr |= (uint8_t) strtol(tokens[0] + 1, NULL, 0);
     return instr;
 }

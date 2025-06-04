@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "encode_dp_reg.h"
 #include "debug.h"
+#include "global.h"
 
 static uint32_t encode_multiply(const char **tokens, int size, uint8_t x);
 static uint32_t encode_bit_logic(const char **tokens, int size,
@@ -97,16 +98,16 @@ static uint32_t encode_bit_logic(const char **tokens,
     uint8_t rd, rn, rm;
     if (type == RD_ZR) {
         rd = 31;
-        rn = strtol(tokens[0] + 1, NULL, 0);
-        rm = strtol(tokens[1] + 1, NULL, 0);
+        rn = parse_reg(tokens[0]);
+        rm = parse_reg(tokens[1]);
     } else if (type == RN_ZR) {
-        rd = strtol(tokens[0] + 1, NULL, 0);
+        rd = parse_reg(tokens[0]);
         rn = 31;
-        rm = strtol(tokens[1] + 1, NULL, 0);
+        rm = parse_reg(tokens[1]);
     } else {
-        rd = strtol(tokens[0] + 1, NULL, 0);
-        rn = strtol(tokens[1] + 1, NULL, 0);
-        rm = strtol(tokens[2] + 1, NULL, 0);
+        rd = parse_reg(tokens[0]);
+        rn = parse_reg(tokens[1]);
+        rm = parse_reg(tokens[2]);
     }
 
     uint32_t instr = 0;
@@ -131,11 +132,11 @@ static uint32_t encode_multiply(const char **tokens, int size, uint8_t x) {
     uint32_t instr = 0;
     instr |= sf << 31;
     instr |= 0x0D8 << 21;
-    instr |= strtol(tokens[2] + 1, NULL, 0) << 16;
+    instr |= parse_reg(tokens[2]) << 16;
     instr |= x << 15;
     instr |= ra << 10;
-    instr |= strtol(tokens[1] + 1, NULL, 0) << 5;
-    instr |= strtol(tokens[0] + 1, NULL, 0);
+    instr |= parse_reg(tokens[1]) << 5;
+    instr |= parse_reg(tokens[0]);
     return instr;
 }
 
@@ -159,16 +160,16 @@ uint32_t encode_arith_reg(const char **tokens, int size, uint8_t opc, INSTRUCTIO
     uint8_t rd, rn, rm;
     if (type == RD_ZR) {
         rd = 31;
-        rn = strtol(tokens[0] + 1, NULL, 0);
-        rm = strtol(tokens[1] + 1, NULL, 0);
+        rn = parse_reg(tokens[0]);
+        rm = parse_reg(tokens[1]);
     } else if (type == RN_ZR) {
-        rd = strtol(tokens[0] + 1, NULL, 0);
+        rd = parse_reg(tokens[0]);
         rn = 31;
-        rm = strtol(tokens[1] + 1, NULL, 0);
+        rm = parse_reg(tokens[1]);
     } else {
-        rd = strtol(tokens[0] + 1, NULL, 0);
-        rn = strtol(tokens[1] + 1, NULL, 0);
-        rm = strtol(tokens[2] + 1, NULL, 0);
+        rd = parse_reg(tokens[0]);
+        rn = parse_reg(tokens[1]);
+        rm = parse_reg(tokens[2]);
     }
 
     uint32_t instr = 0;

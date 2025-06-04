@@ -40,9 +40,12 @@ bool get_label(char *line, char *label_buf)
     PANIC_IF(len == 0 || len >= MAX_LABEL_SIZE, 
              "Invalid label size: len=%zu", len);
 
-    for (size_t i = 0; i < len; i++) {
-        PANIC_IF(!isalpha((unsigned char)start[i]),
-                 "Invalid label: only alphabetical characters allowed\n"
+    PANIC_IF(!isalpha((unsigned char)start[0]) && start[0] != '_',
+                "Invalid label: first character must be alphabetical or underscore\n"
+                "Line: %s", line);
+    for (size_t i = 1; i < len; i++) {
+        PANIC_IF(!isalnum((unsigned char)start[i]) && start[i] != '_',
+                 "Invalid label: only alphanumerical characters or underscore are allowed.\n"
                  "Line: %s", line);
     }
 

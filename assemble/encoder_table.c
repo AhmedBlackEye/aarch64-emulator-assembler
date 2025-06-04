@@ -43,12 +43,13 @@ static const enc_tab_element encode_table[] = {
     { "movk",  encode_movk },
     { "ldr",   encode_load },
     { "str",   encode_store},
+    {NULL, NULL}
 };
 
 encode_function lookup_encoder(const char *mnemonic)
 {
-    for (const enc_tab_element *e = encode_table; e->mnemonic; ++e)
+    for (const enc_tab_element *e = encode_table; e->mnemonic != NULL; e++)
         if (strcmp(e->mnemonic, mnemonic) == 0)
             return e->fn;
-    return NULL;  
-};
+    PANIC("Mnemonic: %s not present in the encoder table\n", mnemonic);
+}

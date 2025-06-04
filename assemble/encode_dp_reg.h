@@ -3,6 +3,12 @@
 
 #include <stdint.h>
 
+typedef enum {
+    STANDARD, 
+    RD_ZR,   
+    RN_ZR   
+} INSTRUCTION_TYPE;
+
 uint32_t encode_and   (const char **tokens, int size);
 uint32_t encode_bic   (const char **tokens, int size);
 uint32_t encode_orr   (const char **tokens, int size);
@@ -18,6 +24,6 @@ uint32_t encode_madd  (const char **tokens, int size);
 uint32_t encode_msub  (const char **tokens, int size);
 uint32_t encode_mul   (const char **tokens, int size);
 uint32_t encode_mneg  (const char **tokens, int size);
-uint32_t encode_arith_reg(const char **tokens, int size, uint8_t opc);
+uint32_t encode_arith_reg(const char **tokens, int size, uint8_t opc, INSTRUCTION_TYPE type);
 
 #endif

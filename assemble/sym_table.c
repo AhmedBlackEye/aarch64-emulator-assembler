@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <string.h>
 
 
 #include "debug.h"
@@ -15,7 +16,7 @@ static size_t size = 0;
 void symtab_define(char *label, uint64_t mem_addr) {
   PANIC_IF(size >= SYMBOL_TABLE_SIZE, "Symbol table is full. Unable to add new element");
 
-  sym_table[size++] = (SymTabElem){label, mem_addr}; 
+  sym_table[size++] = (SymTabElem){strdup(label), mem_addr}; 
 }
 
 uint64_t symtab_lookup(const char *label) {

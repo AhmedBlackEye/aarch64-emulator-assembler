@@ -13,7 +13,6 @@ static char *ltrim(char *s) {
     return s;
 }
 
-
 uint32_t parse_instr(char *line) {
     char *tokens[MAX_TOKENS];
     int token_count = 0;

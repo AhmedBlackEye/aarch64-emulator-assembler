@@ -5,6 +5,7 @@
 #include "encode_dp_imm.h"
 #include "global.h"
 #include "debug.h"
+#include "encode_dp_reg.h"
 
 static uint32_t encode_wmove(const char **tokens,
     int size,

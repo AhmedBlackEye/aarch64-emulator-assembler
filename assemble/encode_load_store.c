@@ -172,10 +172,10 @@ static uint32_t encode_load_store(char *args[], int size, bool is_load) {
     return 0;
 }
 
-uint32_t encode_load(char *args[], int size) {
+uint32_t encode_load(const char *args[], int size) {
     return encode_load_store(args, size, true);
 }
 
-uint32_t encode_store(char *args[], int size) {
+uint32_t encode_store(const char *args[], int size) {
     return encode_load_store(args, size, false);
 }

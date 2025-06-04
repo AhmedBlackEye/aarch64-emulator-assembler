@@ -2,13 +2,7 @@
 #define ENCODE_DP_IMM_H
 
 #include <stdint.h>
-
-// Move the glboal or something similar
-typedef enum {
-    STANDARD, 
-    RD_ZR,   
-    RN_ZR   
-} INSTRUCTION_TYPE;
+#include "encode_dp_reg.h"
 
 uint32_t encode_movn  (const char **tokens, int size);
 uint32_t encode_movz  (const char **tokens, int size);

@@ -170,15 +170,15 @@ static uint32_t encode_register_offset(const char *args[], int size, bool is_loa
 static uint32_t encode_load_store(const char *args[], int size, bool is_load) {
     DEV_ASSERT(size == 2 || size == 3, "Expected arguements should be 2 or 3, but got %d", size);
        
-    if (args[1][0] != '[') { // Literal Load
+    if (args[1][0] != '[') { 
         return encode_load_literal(args, size);
-    } else if (strstr(args[1], "]!")) { // Pre-indexed
+    } else if (strstr(args[1], "]!")) { 
         return encode_pre_index(args, size, is_load);
-    } else if (size == 3) { // Post-indexed
+    } else if (size == 3) { 
         return encode_post_index(args, size, is_load);
-    } else if (strchr(args[1], ',') && !strchr(args[1], '#')) { // Register offset
+    } else if (strchr(args[1], ',') && !strchr(args[1], '#')) { 
         return encode_register_offset(args, size, is_load);
-    } else if (args[1][0] == '[') { // Unsigned offset
+    } else if (args[1][0] == '[') { 
         return encode_unsigned_offset(args, size, is_load);
     }
 

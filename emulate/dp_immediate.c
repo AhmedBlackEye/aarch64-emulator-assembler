@@ -3,6 +3,7 @@
 #include "global.h"
 #include "dp_immediate.h"
 #include "dp_shared.h"
+#include "shared.h"
 
 // Wide Move Opcodes
 #define OPC_MOVN 0x0

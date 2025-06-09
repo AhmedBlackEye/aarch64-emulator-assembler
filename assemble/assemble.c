@@ -17,21 +17,9 @@
 #define INSTRUCTION_SIZE 4
 #define EXPECTED_ARGC 3
 
-static char *trim_ws(char *str);
 static bool get_label(char *line, char *label_buf);
 static bool get_directive_val(char *line, uint32_t *num);
 
-
-static char *trim_ws(char *str)
-{
-    while (isspace(*str)) str++;
-    char *end = str + strlen(str) - 1;
-    while (end > str && isspace(*end))
-        end--;
-    *(end + 1) = '\0';
-
-    return str;
-}
 
 bool get_label(char *line, char *label_buf)
 {
@@ -87,6 +75,54 @@ bool get_directive_val(char *line, uint32_t *num) {
 
 }
 
+void first_pass(FILE *in_file) {
+    uint32_t address = 0;
+    char line[MAX_LINE_SIZE];
+    char label_buf[MAX_LABEL_SIZE];
+    uint32_t bin;
+
+    while (fgets(line, sizeof(line), in_file)) {
+        char *trimmed = trim_ws(line);
+        if (*trimmed == '\0') {
+            continue;  // Skip empty lines
+        }
+
+        if (get_label(trimmed, label_buf)) {
+            symtab_define(label_buf, address);
+        } else if (get_directive_val(trimmed, &bin)) {
+            address += INSTRUCTION_SIZE;
+        } else {
+            address += INSTRUCTION_SIZE;
+        }
+    }
+}
+
+void second_pass(FILE* in_file, FILE* out_file) {
+    char line[MAX_LINE_SIZE];
+    char label_buf[MAX_LABEL_SIZE];
+    uint32_t bin;
+    while (fgets(line, sizeof(line), in_file)) {
+        char *trimmed = trim_ws(line);
+        if (*trimmed == '\0') {
+            continue;  // Skip empty lines
+        }
+
+        // Skip pure label lines
+        if (get_label(trimmed, label_buf)) {
+            continue;
+        }
+
+        if (get_directive_val(trimmed, &bin)) {
+            fwrite(&bin, sizeof(bin), 1, out_file);
+            curr_instr_addr += 0x4;
+        } else {
+            bin = parse_instr(trimmed);
+            fwrite(&bin, sizeof(bin), 1, out_file);
+            curr_instr_addr += 0x4;
+        }
+    }
+}
+
 int main(int argc, char **argv)
 {
     if (argc != EXPECTED_ARGC)
@@ -113,49 +149,9 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    // First pass: build symbol table
-    uint32_t address = 0;
-    char line[MAX_LINE_SIZE];
-    char label_buf[MAX_LABEL_SIZE];
-    uint32_t bin;
-
-    while (fgets(line, sizeof(line), in_file)) {
-        char *trimmed = trim_ws(line);
-        if (*trimmed == '\0') {
-            continue;  // Skip empty lines
-        }
-
-        if (get_label(trimmed, label_buf)) {
-            symtab_define(label_buf, address);
-        } else if (get_directive_val(trimmed, &bin)) {
-            address += INSTRUCTION_SIZE;
-        } else {
-            address += INSTRUCTION_SIZE;
-        }
-    }
-
-    // Second pass: generate machine code
+    first_pass(in_file);
     rewind(in_file);
-    while (fgets(line, sizeof(line), in_file)) {
-        char *trimmed = trim_ws(line);
-        if (*trimmed == '\0') {
-            continue;  // Skip empty lines
-        }
-
-        // Skip pure label lines
-        if (get_label(trimmed, label_buf)) {
-            continue;
-        }
-
-        if (get_directive_val(trimmed, &bin)) {
-            fwrite(&bin, sizeof(bin), 1, out_file);
-            curr_instr_addr += 0x4;
-        } else {
-            bin = parse_instr(trimmed);
-            fwrite(&bin, sizeof(bin), 1, out_file);
-            curr_instr_addr += 0x4;
-        }
-    }
+    second_pass(in_file, out_file);
 
     fclose(in_file);
     fclose(out_file);

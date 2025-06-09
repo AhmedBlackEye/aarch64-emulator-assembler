@@ -1,6 +1,7 @@
 #include "dp_shared.h"
 #include "global.h"
 #include "debug.h"
+#include "shared.h"
 
 #define MASK_32_BITS 0xFFFFFFFFULL
 

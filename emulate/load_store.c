@@ -3,6 +3,7 @@
 
 #include "global.h"
 #include "debug.h"
+#include "shared.h"
 
 static void execute_load_literal(uint32_t instruction);
 static void execute_single_data_transfer(uint32_t instruction);

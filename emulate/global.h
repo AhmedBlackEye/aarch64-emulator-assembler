@@ -11,7 +11,6 @@
 #define INSTR_SIZE 4
 #define ZERO_REG 31
 
-extern uint32_t extract_bits(uint32_t instruction, int start, int end);
 extern uint64_t sign_extend(uint32_t value, int bits);
 extern uint64_t read_reg(uint8_t reg_num, bool is64);
 extern void write_reg(uint8_t reg_num, uint64_t value, bool is64);

@@ -4,6 +4,7 @@
 #include "branch.h"
 #include "global.h"
 #include "debug.h"
+#include "shared.h"
 
 // Branch instruction type constants
 #define UNCONDITIONAL 0x05

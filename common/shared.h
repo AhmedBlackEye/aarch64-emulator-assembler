@@ -1,5 +1,5 @@
-#ifndef BIT_UTILS_H
-#define BIT_UTILS_H
+#ifndef SHARED_H
+#define SHARED_H
 
 #include <stdint.h>
 
@@ -14,6 +14,6 @@ static inline uint32_t extract_bits(uint32_t instruction, int start, int end) {
 /// @param value The value to sign-extend.
 /// @param bits The original bit width of the value (must be 1 to 32).
 /// @return The sign-extended 64-bit value.
-uint64_t sign_extend(uint32_t value, int bits);
+extern uint64_t sign_extend(uint32_t value, int bits);
 
 #endif

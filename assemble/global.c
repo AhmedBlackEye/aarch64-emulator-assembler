@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <string.h> 
 #include <stdlib.h>
+#include <ctype.h>
 
 uint64_t curr_instr_addr = 0;
 

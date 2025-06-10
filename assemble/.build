@@ -1,3 +1,14 @@
-CC  = gcc
-CFLAGS  = -g -Wall -Wextra -Wshadow -I../common/
-BUILD = assemble
+DEST		=	$(TOOLDIR)
+
+BINDIR		=	$(DEST)/bin
+INCDIR		=	$(DEST)/include
+
+CC		=	gcc
+CFLAGS		=	-g -Wall -Wextra -Wshadow
+EXTRA_CFLAGS	=	-I. -I$(INCDIR) -I../common
+EXTRA_LDLIBS	=	../common/libcommon.a
+BUILD		=	assemble
+
+SUBDIR		=	../common
+SUBLIB		=	$(SUBDIR)/libcommon.a
+SUBINC		=	$(SUBDIR)/*.h

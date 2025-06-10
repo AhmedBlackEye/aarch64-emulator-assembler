@@ -1,0 +1,11 @@
+DEST		=	$(TOOLDIR)
+
+LIBDIR		=	$(DEST)/lib/$(ARCH)
+INCDIR		=	$(DEST)/include
+
+EXTRA_CFLAGS	=       -I$(INCDIR)
+
+LIB		=	libcommon.a
+LIBOBJS		=	bintree.o dynstr.o shared.o
+
+BUILD		=	nulltest $(LIB)

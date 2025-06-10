@@ -1,3 +1,15 @@
-CC  = gcc
-CFLAGS  = -g -Wall -Wextra -Wshadow -Wpedantic -I../common/
-BUILD = emulate
+DEST		=	$(TOOLDIR)
+
+BINDIR		=	$(DEST)/bin
+INCDIR		=	$(DEST)/include
+
+CC		=	gcc
+CFLAGS		=	-g -Wall -Wextra -Wshadow -Wpedantic
+EXTRA_CFLAGS	=	-I. -I$(INCDIR) -I../common
+EXTRA_LDLIBS	=	../common/libcommon.a
+
+SUBDIR		=	../common
+SUBLIB		=	$(SUBDIR)/libcommon.a
+SUBINC		=	$(SUBDIR)/*.h
+
+BUILD		=	emulate

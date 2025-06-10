@@ -9,6 +9,8 @@
 static uint32_t encode_multiply(const char **tokens, int size, uint8_t x);
 static uint32_t encode_bit_logic(const char **tokens, int size,
                                  uint8_t opc, uint8_t n, INSTRUCTION_TYPE type);
+static void parse_shift(const char **tokens, int size, uint8_t *shift, uint8_t *operand);        
+static void parse_rd_rn_rm(const char **tokens, INSTRUCTION_TYPE type, uint8_t *rd, uint8_t *rn, uint8_t *rm);    
 
 uint32_t encode_and(const char **tokens, int size) {
     return encode_bit_logic(tokens, size, 0, 0, STANDARD);
@@ -84,31 +86,11 @@ static uint32_t encode_bit_logic(const char **tokens,
     uint8_t operand = 0;
 
     if (size == 4 || size == 5) {
-        const char *shift_token = tokens[size - 2];
-
-        if (strcmp(shift_token, "lsl") == 0) shift = 0;
-        else if (strcmp(shift_token, "lsr") == 0) shift = 1;
-        else if (strcmp(shift_token, "asr") == 0) shift = 2;
-        else if (strcmp(shift_token, "ror") == 0) shift = 3;
-        else PANIC("Unknown shift operation: %s\n", shift_token);
-
-        operand = strtol(tokens[size - 1] + 1, NULL, 0);
+        parse_shift(tokens, size, &shift, &operand);
     }
 
     uint8_t rd, rn, rm;
-    if (type == RD_ZR) {
-        rd = 31;
-        rn = parse_reg(tokens[0]);
-        rm = parse_reg(tokens[1]);
-    } else if (type == RN_ZR) {
-        rd = parse_reg(tokens[0]);
-        rn = 31;
-        rm = parse_reg(tokens[1]);
-    } else {
-        rd = parse_reg(tokens[0]);
-        rn = parse_reg(tokens[1]);
-        rm = parse_reg(tokens[2]);
-    }
+    parse_rd_rn_rm(tokens, type, &rd, &rn, &rm);
 
     uint32_t instr = 0;
     instr |= sf << 31;
@@ -147,30 +129,11 @@ uint32_t encode_arith_reg(const char **tokens, int size, uint8_t opc, INSTRUCTIO
     uint8_t shift = 0, operand = 0;
 
     if (size == 4 || size == 5) {
-        const char *shift_token = tokens[size - 2];
-
-        if (strcmp(shift_token, "lsl") == 0) shift = 0;
-        else if (strcmp(shift_token, "lsr") == 0) shift = 1;
-        else if (strcmp(shift_token, "asr") == 0) shift = 2;
-        else PANIC("Unknown shift operation: %s\n", shift_token);
-
-        operand = strtol(tokens[size - 1] + 1, NULL, 0);
+        parse_shift(tokens, size, &shift, &operand);
     }
 
     uint8_t rd, rn, rm;
-    if (type == RD_ZR) {
-        rd = 31;
-        rn = parse_reg(tokens[0]);
-        rm = parse_reg(tokens[1]);
-    } else if (type == RN_ZR) {
-        rd = parse_reg(tokens[0]);
-        rn = 31;
-        rm = parse_reg(tokens[1]);
-    } else {
-        rd = parse_reg(tokens[0]);
-        rn = parse_reg(tokens[1]);
-        rm = parse_reg(tokens[2]);
-    }
+    parse_rd_rn_rm(tokens, type, &rd, &rn, &rm);
 
     uint32_t instr = 0;
     instr |= sf << 31;
@@ -182,4 +145,32 @@ uint32_t encode_arith_reg(const char **tokens, int size, uint8_t opc, INSTRUCTIO
     instr |= rn << 5;
     instr |= rd;
     return instr;
+}
+
+// Parses the tokens to extract the shift type and operand value.
+static void parse_shift(const char **tokens, int size, uint8_t *shift, uint8_t *operand) {
+    const char *shift_token = tokens[size - 2];
+    if (strcmp(shift_token, "lsl") == 0) *shift = 0;
+    else if (strcmp(shift_token, "lsr") == 0) *shift = 1;
+    else if (strcmp(shift_token, "asr") == 0) *shift = 2;
+    else if (strcmp(shift_token, "ror") == 0) *shift = 3;
+    else PANIC("Unknown shift operation: %s\n", shift_token);
+
+    *operand = strtol(tokens[size - 1] + 1, NULL, 0);
+}
+
+static void parse_rd_rn_rm(const char **tokens, INSTRUCTION_TYPE type, uint8_t *rd, uint8_t *rn, uint8_t *rm) {
+    if (type == RD_ZR) {
+        *rd = 31;
+        *rn = parse_reg(tokens[0]);
+        *rm = parse_reg(tokens[1]);
+    } else if (type == RN_ZR) {
+        *rd = parse_reg(tokens[0]);
+        *rn = 31;
+        *rm = parse_reg(tokens[1]);
+    } else {
+        *rd = parse_reg(tokens[0]);
+        *rn = parse_reg(tokens[1]);
+        *rm = parse_reg(tokens[2]);
+    }
 }

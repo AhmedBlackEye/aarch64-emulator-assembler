@@ -1,9 +1,12 @@
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "dynstr.h"
-#include "assert.h"
 
+#define max(a, b) (a > b ? a : b)
+
+#define MIN_STR_SIZE 8
 struct DynStr
 {
     char *data;
@@ -18,7 +21,7 @@ DynStr dynstr_create(char *s)
     DynStr new = malloc(sizeof(struct DynStr));
     assert(new != NULL);
     int len = strlen(s);
-    int cap = 10 + len;
+    int cap = max(len * 2 + 1, MIN_STR_SIZE);
     new->data = malloc(cap * sizeof(char));
     assert(new->data != NULL);
     strcpy(new->data, s);
@@ -30,19 +33,22 @@ DynStr dynstr_create(char *s)
 // append string s onto the end of d’s data
 void dynstr_strcat(DynStr d, char *s)
 {
+    assert(d != NULL);
     int len = strlen(s);
-    d->len += len;
-    if (d->len >= d->cap)
-    { // need more space?
-        d->cap += 100 + len;
+    int new_len = d->len + len;
+    if (new_len + 1 > d->cap) { 
+        d->cap = new_len * 2 + 1;
         d->data = realloc(d->data, d->cap * sizeof(char));
         assert(d->data != NULL);
     }
     strcat(d->data, s);
+    d->len = new_len;
 }
 
 int dynstr_cmp(DynStr d1, DynStr d2)
 {
+    assert(d1 != NULL);
+    assert(d2 != NULL);
     return strcmp(d1->data, d2->data);
 }
 
@@ -50,12 +56,14 @@ int dynstr_cmp(DynStr d1, DynStr d2)
 // Return the length of DynStr d.
 int dynstr_len(DynStr d)
 {
+    assert(d != NULL);
     return d->len;
 }
 // char *data = dynstr_data( d );
 // Return the dynstr’s data; note: not a copy, the actual data.
 char *dynstr_data(DynStr d)
 {
+    assert(d != NULL);
     return d->data;
 }
 

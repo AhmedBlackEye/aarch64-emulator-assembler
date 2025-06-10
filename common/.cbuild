@@ -1,2 +1,0 @@
-BUILD = dynstr
-CFLAGS = -g

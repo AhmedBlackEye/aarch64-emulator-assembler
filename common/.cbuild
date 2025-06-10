@@ -1,0 +1,2 @@
+BUILD = dynstr
+CFLAGS = -g

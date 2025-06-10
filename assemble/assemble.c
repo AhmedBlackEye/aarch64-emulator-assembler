@@ -153,9 +153,9 @@ int main(int argc, char **argv)
     rewind(in_file);
     second_pass(in_file, out_file);
 
+    symtab_cleanup();
     fclose(in_file);
     fclose(out_file);
 
     return EXIT_SUCCESS;
 }
-

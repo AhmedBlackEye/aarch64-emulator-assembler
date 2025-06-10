@@ -1,5 +1,6 @@
 #include <stdint.h>
-#include <debug.h>
+
+#include "debug.h"
 
 uint64_t sign_extend(uint32_t value, int bits)
 {

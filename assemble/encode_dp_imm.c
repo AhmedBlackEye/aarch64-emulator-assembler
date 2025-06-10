@@ -58,8 +58,8 @@ uint32_t encode_arith_imm(const char **tokens,
     uint32_t instr = 0;
     instr |= sf << 31;
     instr |= opc << 29;
-    instr |= 0b100 << 26;
-    instr |= 0b010 << 23; 
+    instr |= 0x4 << 26;
+    instr |= 0x2 << 23; 
     instr |= sh << 22;
     instr |= imm_12 << 10;
     instr |= rn << 5;
@@ -86,8 +86,8 @@ static uint32_t encode_wmove(const char **tokens,
     uint32_t instr = 0;
     instr |= sf << 31;
     instr |= opc << 29;
-    instr |= 0b100 << 26;
-    instr |= 0b101 << 23;
+    instr |= 0x4 << 26;
+    instr |= 0x5 << 23;
     instr |= hw << 21;
     instr |= imm_16 << 5;
     instr |= parse_reg(tokens[0]);

@@ -113,7 +113,7 @@ static uint32_t encode_bit_logic(const char **tokens,
     uint32_t instr = 0;
     instr |= sf << 31;
     instr |= opc << 29;
-    instr |= 0b01010 << 24;
+    instr |= 0xA << 24;
     instr |= shift << 22;
     instr |= n << 21;
     instr |= rm << 16;
@@ -131,7 +131,7 @@ static uint32_t encode_multiply(const char **tokens, int size, uint8_t x) {
 
     uint32_t instr = 0;
     instr |= sf << 31;
-    instr |= 0x0D8 << 21;
+    instr |= 0xD8 << 21;
     instr |= parse_reg(tokens[2]) << 16;
     instr |= x << 15;
     instr |= ra << 10;
@@ -175,7 +175,7 @@ uint32_t encode_arith_reg(const char **tokens, int size, uint8_t opc, INSTRUCTIO
     uint32_t instr = 0;
     instr |= sf << 31;
     instr |= opc << 29;
-    instr |= 0b1011 << 24;
+    instr |= 0xB << 24;
     instr |= shift << 22;
     instr |= rm << 16;
     instr |= operand << 10;

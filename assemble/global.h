@@ -11,6 +11,12 @@
  */
 #define STR_EQUAL(str1, str2) (strcmp(str1, str2) == 0)
 
+typedef enum {
+    STANDARD, 
+    RD_ZR,   
+    RN_ZR   
+} INSTRUCTION_TYPE;
+
 extern uint8_t parse_reg(const char *reg);
 
 extern char *trim_ws(char *str);

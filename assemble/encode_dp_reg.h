@@ -2,12 +2,7 @@
 #define ENCODE_DP_REG_H
 
 #include <stdint.h>
-
-typedef enum {
-    STANDARD, 
-    RD_ZR,   
-    RN_ZR   
-} INSTRUCTION_TYPE;
+#include "global.h"
 
 uint32_t encode_and   (const char **tokens, int size);
 uint32_t encode_bic   (const char **tokens, int size);

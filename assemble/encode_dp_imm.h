@@ -2,7 +2,7 @@
 #define ENCODE_DP_IMM_H
 
 #include <stdint.h>
-#include "encode_dp_reg.h"
+#include "global.h"
 
 uint32_t encode_movn  (const char **tokens, int size);
 uint32_t encode_movz  (const char **tokens, int size);

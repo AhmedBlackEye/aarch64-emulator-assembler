@@ -1,0 +1,13 @@
+{
+    "test": "test/test_cases/shifts/ror1.s",
+    "emulator": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    },
+    "assembler": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    }
+}

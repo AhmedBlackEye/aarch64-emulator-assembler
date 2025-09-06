@@ -1,0 +1,13 @@
+{
+    "test": "test/test_cases/generated/subs/subs15.s",
+    "emulator": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    },
+    "assembler": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "test": "test/test_cases/general/str04.s",
+    "emulator": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    },
+    "assembler": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    }
+}

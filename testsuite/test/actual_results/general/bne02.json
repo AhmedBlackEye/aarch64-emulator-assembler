@@ -1,0 +1,13 @@
+{
+    "test": "test/test_cases/general/bne02.s",
+    "emulator": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    },
+    "assembler": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    }
+}

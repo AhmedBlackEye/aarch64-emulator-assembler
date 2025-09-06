@@ -1,0 +1,13 @@
+{
+    "test": "test/test_cases/generated/bcond/bcond10.s",
+    "emulator": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    },
+    "assembler": {
+        "result": "CORRECT",
+        "log": [],
+        "diff": null
+    }
+}
